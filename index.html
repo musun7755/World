@@ -1,193 +1,180 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>福爾摩沙 Formosa｜世界觀設定</title>
-    <style>
-        /* =========================================
-           標記：1. 自訂字體區塊
-           請在 GitHub 專案裡建一個名為 fonts 的資料夾，
-           並把你的字體檔案放進去。
-           ========================================= */
-        @font-face {
-            font-family: 'MyCyberFont'; /* 標記：幫你的字體取個代號 */
-            /* 標記：修改下方的路徑與檔名，確保跟你的檔案完全一致（區分大小寫） */
-            src: url('./fonts/你的字體檔名.ttf') format('truetype'); 
-            font-weight: normal;
-            font-style: normal;
-        }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>LLM Boyfriend System</title>
 
-        :root {
-            --bg-color: #0d0d0d;
-            --text-main: #e0e0e0;
-            --accent-cyan: #00f0ff;
-            --accent-purple: #b026ff;
-            --card-bg: #1a1a1a;
-        }
+<style>
+body {
+    margin: 0;
+    background: radial-gradient(circle at 20% 20%, #111827, #05070d 70%);
+    color: #fff;
+    font-family: 'Segoe UI', sans-serif;
+    overflow-x: hidden;
+}
 
-        body {
-            /* =========================================
-               標記：2. 套用自訂字體
-               把剛才取的代號 'MyCyberFont' 放在最前面。
-               如果載入失敗，會自動使用後面的備用字體。
-               ========================================= */
-            font-family: 'MyCyberFont', 'Segoe UI', Tahoma, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            line-height: 1.6;
-            margin: 0;
-            padding: 0;
-        }
+/* 頂部 */
+header {
+    text-align: center;
+    padding: 40px 0 20px 0;
+}
 
-        header {
-            background: linear-gradient(90deg, #000000 0%, #111111 100%);
-            border-bottom: 2px solid var(--accent-cyan);
-            padding: 40px 20px;
-            text-align: center;
-        }
+header h1 {
+    font-weight: 300;
+    letter-spacing: 4px;
+    font-size: 28px;
+    text-transform: uppercase;
+    background: linear-gradient(90deg, #00f0ff, #ff00c8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
 
-        h1 {
-            color: var(--accent-cyan);
-            margin: 0;
-            font-size: 2.5rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
-        }
+/* 掃描線 */
+.scanline {
+    height: 2px;
+    width: 100%;
+    background: linear-gradient(90deg, transparent, #00f0ff, #ff00c8, transparent);
+    animation: scan 4s linear infinite;
+}
 
-        h2 {
-            color: var(--accent-purple);
-            border-bottom: 1px solid #333;
-            padding-bottom: 10px;
-            margin-top: 40px;
-        }
+@keyframes scan {
+    0% { opacity: 0.2; }
+    50% { opacity: 1; }
+    100% { opacity: 0.2; }
+}
 
-        .container {
-            /* =========================================
-               標記：3. 解決斷行問題 (容器寬度)
-               這裡原本是 1000px，現改為 1200px，讓畫面夠寬。
-               ========================================= */
-            max-width: 1200px; 
-            margin: 0 auto;
-            padding: 20px;
-        }
+/* 滑動區塊 */
+.slider-container {
+    height: 75vh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    padding: 0 60px;
+}
 
-        .grid {
-            display: grid;
-            /* =========================================
-               標記：4. 解決斷行問題 (卡片寬度)
-               minmax(240px, 1fr) 確保卡片最小不低於 240px，
-               這樣 1200px 的容器剛好可以塞下 4 張卡片並排！
-               ========================================= */
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
+.slider {
+    display: flex;
+    gap: 40px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding: 40px 0;
+    width: max-content; /* 強制產生滾動空間 */
+}
 
-        .card {
-            background-color: var(--card-bg);
-            /* 霓虹基礎邊框：加粗一點並套用青色 */
-            border: 2px solid var(--accent-cyan);
-            border-radius: 8px;
-            padding: 20px;
-            
-            /* 霓虹發光核心效果：外發光 + 內發光 */
-            box-shadow: 0 0 10px rgba(0, 240, 255, 0.5),
-                        inset 0 0 10px rgba(0, 240, 255, 0.2);
-                        
-            transition: all 0.3s ease-in-out;
-        }
+.slider::-webkit-scrollbar {
+    height: 6px;
+}
 
-        .card:hover {
-            transform: translateY(-5px);
-            /* 滑鼠移過去時的爆發霓虹感：疊加多層陰影創造強烈光暈 */
-            box-shadow: 0 0 20px rgba(0, 240, 255, 0.8),
-                        0 0 40px rgba(0, 240, 255, 0.6),
-                        inset 0 0 20px rgba(0, 240, 255, 0.5);
-            /* 邊框變白，模擬霓虹燈管高亮的核心 */
-            border-color: #ffffff; 
-        }
+.slider::-webkit-scrollbar-thumb {
+    background: linear-gradient(90deg, #00f0ff, #ff00c8);
+    border-radius: 4px;
+}
 
+/* 卡片 */
+.card {
+    flex: 0 0 280px; /* 關鍵修正：禁止縮小 */
+    height: 420px;
+    background: rgba(20, 25, 35, 0.6);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+    scroll-snap-align: center;
+    cursor: pointer;
+    transition: 0.4s;
+    border: 1px solid rgba(255,255,255,0.05);
+}
 
-        .card h3 {
-            color: var(--accent-cyan);
-            margin-top: 0;
-        }
+.card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 20px;
+    padding: 1px;
+    background: linear-gradient(135deg, #00f0ff, #ff00c8);
+    -webkit-mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+    opacity: 0;
+    transition: 0.4s;
+}
 
-        .highlight {
-            color: var(--accent-purple);
-            font-weight: bold;
-        }
+.card:hover::before {
+    opacity: 1;
+}
 
-        footer {
-            text-align: center;
-            padding: 20px;
-            margin-top: 50px;
-            border-top: 1px solid #333;
-            font-size: 0.9rem;
-            color: #666;
-        }
-    </style>
+.card:hover {
+    transform: translateY(-12px);
+    box-shadow: 0 20px 40px rgba(0, 240, 255, 0.2),
+                0 20px 40px rgba(255, 0, 200, 0.2);
+}
+
+.card img {
+    width: 100%;
+    height: 85%;
+    object-fit: cover;
+    filter: brightness(0.9);
+}
+
+.card-name {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 18px;
+    font-size: 18px;
+    letter-spacing: 2px;
+    background: linear-gradient(transparent, rgba(0,0,0,0.9));
+}
+</style>
 </head>
+
 <body>
 
-    <header>
-        <h1>福爾摩沙 Formosa</h1>
-        <p>【基礎世界觀導覽】</p>
-    </header>
+<header>
+    <h1>LLM BOYFRIEND SYSTEM</h1>
+    <div class="scanline"></div>
+</header>
 
-    <div class="container">
-        <section id="world">
-            <h2>🌍 世界觀概述</h2>
-            <p>架空現代世界，類賽博龐克，僅藝術領域高科技，其餘為現代都市風格 。</p>
-            <p>其他國家如地球現實情況，世界觀開放，國際交流正常 。</p>
-            <p><strong>國家體制（福爾摩沙）：</strong>現代國家體制，正常法規管理，文化多元 。</p>
-        </section>
+<div class="slider-container">
+    <div class="slider" id="boyfriendSlider"></div>
+</div>
 
-        <section id="cities">
-            <h2>🏙️ 國內主要城市</h2>
-            <div class="grid">
-                <div class="card">
-                    <h3>📍 首都 (Capital)</h3>
-                    <p>政治經濟中心，高端人士集中 。</p>
-                    <p>高樓林立，居民重視生活品質與形象 。市民以捷運／公車／計程車為主要移動方式，有磁浮列車連接機場與外城 。</p>
-                </div>
-                
-                <div class="card">
-                    <h3>📍 書城 (Shucheng)</h3>
-                    <p>自由學術區，學生與地下創作活絡 。</p>
-                    <p>聚集大量學生、創作者、地下講師與實驗派藝術家 。創作題材自由無邊際，從插畫到性別政治，街道本身就像展場 。</p>
-                </div>
+<script>
+const boyfriends = [
+    { id: "yan", name: "焱狩", image: "images/yan.jpg" },
+    { id: "jiu", name: "汣司", image: "images/jiu.jpg" },
+    { id: "shao", name: "邵安", image: "images/shao.jpg" },
+    { id: "he", name: "赫湦", image: "images/he.jpg" },
+    { id: "ran", name: "霽冉", image: "images/ran.jpg" }
+];
 
-                <div class="card">
-                    <h3>📍 古灣 (Guwan)</h3>
-                    <p>舊城區，藝術市集密集，文藝圈活躍 。</p>
-                    <p>舊城區結構，街道蜿蜒 。白天是藝術市集與展演聚集地，晚上轉為秘密交易、情色展演與創作者交誼場合 。</p>
-                </div>
+const slider = document.getElementById("boyfriendSlider");
 
-                <div class="card">
-                    <h3>📍 灰港 (Huigang)</h3>
-                    <p>極端自治特區，地下文化活躍，法律邊界模糊 。</p>
-                    <p>政府僅名義管理，實際由地下圈自行運作 。城市氛圍以冷灰工業感為主，高樓、舊街混雜，全城瀰漫霓虹光 。</p>
-                </div>
-            </div>
-        </section>
+boyfriends.forEach(bf => {
+    const card = document.createElement("div");
+    card.classList.add("card");
 
-        <section id="tech">
-            <h2>🎛️ 特殊科技：聲紋 (Voiceprint)</h2>
-            <div class="card" style="border-color: var(--accent-purple);">
-                <p>特有科技集中在藝術領域：<span class="highlight">聲紋雕刻機、高科技刺青機、即時聲紋影像裝置廣泛使用</span> 。</p>
-                <p><strong>定義：</strong>聲音的頻率與波形紋理數據，可儲存、加工、雕刻、轉印為實體 。</p>
-                <p>這項技術在「灰港」的地下圈中被發展到極致，包含聲音藝術、影像藝術與刺青藝術 。</p>
-            </div>
-        </section>
-    </div>
+    card.innerHTML = `
+        <img src="${bf.image}" alt="${bf.name}">
+        <div class="card-name">${bf.name}</div>
+    `;
 
-    <footer>
-        <p>資料庫系統載入完畢 // Formosa Worldbuilding Project</p>
-    </footer>
+    card.onclick = () => {
+        window.location.href = `profile.html?id=${bf.id}`;
+    };
+
+    slider.appendChild(card);
+});
+
+/* 滑鼠滾輪 → 橫向滑動 */
+slider.addEventListener("wheel", (e) => {
+    e.preventDefault();
+    slider.scrollLeft += e.deltaY;
+});
+</script>
 
 </body>
 </html>
-
