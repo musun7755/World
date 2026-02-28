@@ -74,7 +74,7 @@
         }
         .breeze-bar {
             width: 8px; height: 8px; background: var(--char-color); box-shadow: 0 0 12px var(--char-color);
-            border-radius: 50%; /* 變成圓潤的珠子狀 */
+            border-radius: 50%;
             animation: breeze-wave 2.5s infinite ease-in-out alternate;
         }
         .breeze-bar:nth-child(1) { animation-delay: 0.0s; } 
@@ -107,6 +107,37 @@
         .typing-container { font-size: 1.05rem; line-height: 1.8; color: #ccc; letter-spacing: 1px; min-height: 100px; }
         .cursor { display: inline-block; width: 8px; height: 1.2em; background-color: var(--char-color); vertical-align: text-bottom; animation: blink 0.8s infinite; }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+        /* ========== 「與他相遇」按鈕樣式 ========== */
+        .comm-section {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .comm-btn {
+            display: inline-block;
+            padding: 14px 30px;
+            color: var(--char-color);
+            border: 1px solid var(--char-color);
+            text-decoration: none;
+            font-weight: 900;
+            letter-spacing: 4px;
+            border-radius: 4px;
+            transition: all 0.4s;
+            background: rgba(0, 255, 0, 0.05);
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.1);
+            text-align: center;
+            width: 100%;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+        }
+        .comm-btn:hover {
+            background: var(--char-color);
+            color: #000;
+            box-shadow: 0 0 30px var(--char-color);
+            transform: translateY(-3px);
+            letter-spacing: 6px;
+        }
 
         /* ========== 影像存檔照片欄位 ========== */
         .gallery-container { width: 90%; max-width: 1200px; margin: 0 auto 60px auto; z-index: 10; }
@@ -196,6 +227,10 @@
             <div class="data-panel">
                 <h2>接觸紀錄 / ENCOUNTER LOG</h2>
                 <div class="typing-container"><span id="typewriter"></span><span class="cursor"></span></div>
+                
+                <div class="comm-section">
+                    <a href="https://你的LLM網址" target="_blank" class="comm-btn">與他相遇</a>
+                </div>
             </div>
         </div>
     </div>
@@ -235,7 +270,6 @@
         resize();
         window.addEventListener('resize', resize);
         
-        // 霽冉專屬背景彩蛋
         const chars = "0123456789ABCDEF";
         const cities = ["JIRAN", "SCISSORS", "STYLE", "GENTLE", "CARE"]; 
         const fontSize = 16;
@@ -244,7 +278,7 @@
         function draw() {
             ctx.fillStyle = "rgba(5, 5, 5, 0.08)";
             ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = "#00ff00"; // 綠色數據流
+            ctx.fillStyle = "#00ff00"; 
             ctx.font = fontSize + "px 'Noto Sans TC'";
             drops.forEach((y, i) => {
                 const text = Math.random() > 0.98 ? cities[Math.floor(Math.random() * cities.length)] : chars[Math.floor(Math.random() * chars.length)];
@@ -255,7 +289,6 @@
         }
         setInterval(draw, 35);
 
-        // 系統解碼特效 (綠色版)
         class TextScramble {
             constructor(el) { this.el = el; this.chars = '!<>-_\\/[]{}—=+*^?#________'; this.update = this.update.bind(this); }
             setText(newText) {
@@ -275,7 +308,7 @@
                     if (this.frame >= end) { complete++; output += to; }
                     else if (this.frame >= start) {
                         if (!char || Math.random() < 0.28) { char = this.randomChar(); this.queue[i].char = char; }
-                        output += `<span style="color: #00ff00; opacity: 0.7;">${char}</span>`; // 綠色亂碼
+                        output += `<span style="color: #00ff00; opacity: 0.7;">${char}</span>`;
                     } else { output += from; }
                 }
                 this.el.innerHTML = output;
@@ -285,14 +318,13 @@
         }
         setTimeout(() => { document.querySelectorAll('.scramble').forEach(el => { const fx = new TextScramble(el); fx.setText(el.getAttribute('data-text')); }); }, 500); 
 
-        // 打字機特效 (預留文案，速度溫和)
         const storyText = "指尖穿梭在髮絲間，他的溫度總是令人感到安心。身為頂級沙龍的設計師，他溫柔、細心、極具耐心。然而，在這座充滿算計的城市裡，能始終保持絕對溫柔的人，往往在心底藏著最深沉、不可觸碰的執念……";
         const typeContainer = document.getElementById('typewriter');
         let typeIndex = 0;
         function typeWriter() {
             if (typeIndex < storyText.length) {
                 typeContainer.innerHTML += storyText.charAt(typeIndex); typeIndex++;
-                const randomSpeed = Math.floor(Math.random() * 45) + 35; // 溫和穩定的打字速度
+                const randomSpeed = Math.floor(Math.random() * 45) + 35; 
                 setTimeout(typeWriter, randomSpeed);
             }
         }
