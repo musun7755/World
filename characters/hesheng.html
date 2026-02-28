@@ -8,10 +8,10 @@
     <style>
         :root {
             --bg-dark: #050505;
-            --char-color: #ffff00; /* 赫湦代表色：黃色 */
+            --char-color: #ffff00; /* 赫湦代表色：螢光黃 */
             --neon-cyan: #00f0ff;
-            --glass-bg: rgba(20, 20, 5, 0.85); /* 帶有微弱黃色的毛玻璃 */
-            --border-glow: 0 0 15px rgba(255, 255, 0, 0.3);
+            --glass-bg: rgba(25, 25, 5, 0.8); 
+            --border-glow: 0 0 15px rgba(255, 255, 0, 0.4);
         }
 
         body {
@@ -26,8 +26,7 @@
             overflow-x: hidden;
         }
 
-        /* 矩陣背景 (透明度稍微調高讓黃色顯色) */
-        #matrix-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.25; }
+        #matrix-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.3; }
 
         /* ========== 側邊抽屜選單樣式 ========== */
         .menu-toggle {
@@ -53,7 +52,6 @@
         .side-menu a { color: #ccc; text-decoration: none; font-size: 1.1rem; font-weight: 500; margin: 10px 0; letter-spacing: 2px; transition: 0.3s; display: block; }
         .side-menu a:hover { color: var(--neon-cyan); padding-left: 10px; text-shadow: 0 0 10px var(--neon-cyan); }
 
-        /* 返回按鈕 */
         .back-btn {
             position: fixed; top: 20px; left: 20px; padding: 10px 20px; background: transparent;
             color: var(--char-color); border: 1px solid var(--char-color); border-radius: 4px;
@@ -65,87 +63,63 @@
         .profile-container { display: flex; width: 90%; max-width: 1200px; margin-top: 80px; margin-bottom: 30px; gap: 40px; z-index: 10; }
         .visual-side { flex: 1; display: flex; flex-direction: column; align-items: center; position: sticky; top: 80px; height: fit-content; }
         .portrait-box { width: 100%; max-width: 450px; aspect-ratio: 3 / 4; border: 1px solid var(--char-color); border-radius: 10px; background: var(--glass-bg); backdrop-filter: blur(10px); overflow: hidden; position: relative; box-shadow: var(--border-glow); }
-        .portrait-box img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(10%) contrast(1.1); }
+        .portrait-box img { width: 100%; height: 100%; object-fit: cover; filter: contrast(1.1); }
 
-        /* 赫湦專屬：高頻混亂迷因波形 */
-        .chaotic-equalizer {
+        /* 赫湦專屬：高能量布丁波形 */
+        .pudding-equalizer {
             position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
-            display: flex; gap: 4px; height: 50px; align-items: flex-end; z-index: 5; opacity: 0.9;
+            display: flex; gap: 4px; height: 50px; align-items: flex-end; z-index: 5;
         }
-        .chaotic-bar {
-            width: 7px; background: var(--char-color); box-shadow: 0 0 10px var(--char-color);
-            animation: fast-bounce 0.8s infinite ease-in-out alternate;
+        .pudding-bar {
+            width: 8px; background: var(--char-color); box-shadow: 0 0 10px var(--char-color);
+            border-radius: 4px 4px 0 0;
+            animation: bounce 0.6s infinite ease-in-out alternate;
         }
-        .chaotic-bar:nth-child(1) { animation-delay: 0.0s; height: 10px; } 
-        .chaotic-bar:nth-child(2) { animation-delay: 0.3s; height: 40px; } 
-        .chaotic-bar:nth-child(3) { animation-delay: 0.1s; height: 25px; } 
-        .chaotic-bar:nth-child(4) { animation-delay: 0.4s; height: 45px; }
-        .chaotic-bar:nth-child(5) { animation-delay: 0.2s; height: 15px; }
-        .chaotic-bar:nth-child(6) { animation-delay: 0.5s; height: 35px; } 
+        .pudding-bar:nth-child(1) { animation-delay: 0.0s; height: 15px; } 
+        .pudding-bar:nth-child(2) { animation-delay: 0.2s; height: 40px; } 
+        .pudding-bar:nth-child(3) { animation-delay: 0.4s; height: 25px; } 
+        .pudding-bar:nth-child(4) { animation-delay: 0.1s; height: 45px; }
+        .pudding-bar:nth-child(5) { animation-delay: 0.3s; height: 20px; }
 
-        @keyframes fast-bounce {
-            0% { transform: scaleY(0.2); }
-            100% { transform: scaleY(1.2); } 
-        }
+        @keyframes bounce { 0% { transform: scaleY(0.4); } 100% { transform: scaleY(1.1); } }
 
-        .scanline { position: absolute; top: -10%; left: 0; width: 100%; height: 4px; background: var(--char-color); box-shadow: 0 0 15px var(--char-color); opacity: 0.6; animation: scan 2s linear infinite; z-index: 2; }
+        .scanline { position: absolute; top: -10%; left: 0; width: 100%; height: 4px; background: var(--char-color); box-shadow: 0 0 15px var(--char-color); opacity: 0.6; animation: scan 2.5s linear infinite; z-index: 2; }
         @keyframes scan { 0% { top: -10%; } 100% { top: 110%; } }
 
         /* 右側：資料檔案區 */
         .data-side { flex: 1.2; display: flex; flex-direction: column; gap: 25px; }
         .data-header { border-bottom: 2px solid var(--char-color); padding-bottom: 10px; margin-bottom: 10px; }
-        
-        /* 標題已拔除英文 */
-        .data-header h1 { font-size: 3rem; margin: 0; letter-spacing: 5px; color: var(--char-color); text-shadow: 0 0 10px var(--char-color); }
-        .data-header p { font-size: 1rem; opacity: 0.8; letter-spacing: 3px; color: #fff; }
+        .data-header h1 { font-size: 3.5rem; margin: 0; letter-spacing: 5px; color: var(--char-color); text-shadow: 0 0 15px rgba(255, 255, 0, 0.5); }
+        .data-header p { font-size: 1.1rem; opacity: 0.9; letter-spacing: 2px; color: #fff; }
 
-        .data-panel { background: var(--glass-bg); border: 1px solid rgba(255,255,255,0.1); border-left: 4px solid var(--char-color); padding: 25px; border-radius: 4px; box-shadow: 0 5px 15px rgba(0,0,0,0.5); position: relative; overflow: hidden; }
-        .data-panel h2 { font-size: 1.2rem; color: var(--char-color); margin-top: 0; border-bottom: 1px solid rgba(153,153,153,0.3); padding-bottom: 10px; letter-spacing: 2px; }
-        .info-row { display: flex; margin: 12px 0; font-size: 1.05rem; border-bottom: 1px dashed rgba(255,255,255,0.1); padding-bottom: 5px; }
-        .label { width: 120px; color: var(--char-color); font-weight: bold; letter-spacing: 1px; }
-        .value { flex: 1; color: #ddd; letter-spacing: 1px; line-height: 1.5; }
+        .data-panel { background: var(--glass-bg); border: 1px solid rgba(255,255,255,0.1); border-left: 5px solid var(--char-color); padding: 25px; border-radius: 4px; box-shadow: 0 5px 20px rgba(0,0,0,0.6); }
+        .data-panel h2 { font-size: 1.3rem; color: var(--char-color); margin-top: 0; border-bottom: 1px solid rgba(255,255,0,0.2); padding-bottom: 10px; letter-spacing: 2px; font-weight: 900; }
+        .info-row { display: flex; margin: 12px 0; font-size: 1.1rem; border-bottom: 1px dashed rgba(255,255,255,0.05); padding-bottom: 5px; }
+        .label { width: 120px; color: var(--char-color); font-weight: bold; }
+        .value { flex: 1; color: #eee; }
 
-        .typing-container { font-size: 1.05rem; line-height: 1.8; color: #ccc; letter-spacing: 1px; min-height: 100px; }
-        .cursor { display: inline-block; width: 8px; height: 1.2em; background-color: var(--char-color); vertical-align: text-bottom; animation: blink 0.8s infinite; }
+        .typing-container { font-size: 1.1rem; line-height: 1.8; color: #ddd; letter-spacing: 1px; min-height: 120px; }
+        .cursor { display: inline-block; width: 10px; height: 1.2em; background-color: var(--char-color); vertical-align: text-bottom; animation: blink 0.8s infinite; }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
-        /* ========== 影像存檔照片欄位 ========== */
-        .gallery-container { width: 90%; max-width: 1200px; margin: 0 auto 60px auto; z-index: 10; }
-        .gallery-title { font-size: 1.5rem; color: var(--char-color); border-bottom: 2px solid var(--char-color); padding-bottom: 10px; margin-bottom: 20px; letter-spacing: 3px; text-shadow: 0 0 10px rgba(255, 255, 0, 0.3); }
-        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
-        
-        .gallery-item {
-            position: relative; aspect-ratio: 16 / 9; border-radius: 6px; overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.1); background: #111; transition: 0.3s; cursor: pointer;
-        }
-        .gallery-item img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(50%) sepia(30%) hue-rotate(10deg); transition: 0.5s ease; }
+        /* 影像存檔 */
+        .gallery-container { width: 90%; max-width: 1200px; margin: 20px auto 60px auto; z-index: 10; }
+        .gallery-title { font-size: 1.5rem; color: var(--char-color); border-bottom: 2px solid var(--char-color); padding-bottom: 10px; margin-bottom: 25px; letter-spacing: 3px; }
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        .gallery-item { position: relative; aspect-ratio: 16 / 9; border-radius: 8px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); background: #111; cursor: pointer; transition: 0.3s; }
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.9); transition: 0.5s; }
+        .gallery-item:hover { border-color: var(--char-color); transform: scale(1.02); }
+        .gallery-item:hover img { filter: brightness(1.1); }
 
-        @media (hover: hover) {
-            .gallery-item:hover { border-color: var(--char-color); box-shadow: 0 0 15px var(--border-glow); transform: translateY(-5px); }
-            .gallery-item:hover img { filter: grayscale(0%) contrast(1.1); transform: scale(1.05); }
-        }
-
-        /* ========== 燈箱效果 (Lightbox) ========== */
-        .lightbox {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(10, 10, 0, 0.9); backdrop-filter: blur(10px);
-            z-index: 2000; display: flex; justify-content: center; align-items: center;
-            opacity: 0; visibility: hidden; transition: 0.3s ease; cursor: zoom-out;
-        }
+        /* 燈箱 */
+        .lightbox { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 2000; display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: 0.3s; cursor: zoom-out; }
         .lightbox.active { opacity: 1; visibility: visible; }
-        .lightbox img {
-            max-width: 85vw; max-height: 85vh; border: 2px solid var(--char-color); border-radius: 8px;
-            box-shadow: 0 0 40px rgba(255, 255, 0, 0.4); transform: scale(0.9);
-            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); object-fit: contain;
-        }
-        .lightbox.active img { transform: scale(1); }
+        .lightbox img { max-width: 90%; max-height: 90%; border: 2px solid var(--char-color); border-radius: 10px; box-shadow: 0 0 30px var(--char-color); }
 
         @media (max-width: 900px) {
-            .profile-container { flex-direction: column; margin-top: 70px; gap: 20px; }
-            .visual-side { position: relative; top: 0; }
-            .data-header h1 { font-size: 2.5rem; }
+            .profile-container { flex-direction: column; margin-top: 70px; }
+            .data-header h1 { font-size: 2.8rem; }
             .back-btn { top: 80px; }
-            .gallery-item img { filter: grayscale(10%) contrast(1.1); }
         }
     </style>
 </head>
@@ -171,9 +145,8 @@
         <div class="visual-side">
             <div class="portrait-box">
                 <div class="scanline"></div>
-                <div class="chaotic-equalizer">
-                    <div class="chaotic-bar"></div><div class="chaotic-bar"></div><div class="chaotic-bar"></div>
-                    <div class="chaotic-bar"></div><div class="chaotic-bar"></div><div class="chaotic-bar"></div>
+                <div class="pudding-equalizer">
+                    <div class="pudding-bar"></div><div class="pudding-bar"></div><div class="pudding-bar"></div><div class="pudding-bar"></div><div class="pudding-bar"></div>
                 </div>
                 <img src="../images/hesheng.jpg" alt="赫湦">
             </div>
@@ -182,10 +155,10 @@
         <div class="data-side">
             <div class="data-header">
                 <h1>赫湦</h1>
-                <p>STATUS: ACTIVE // ROLE: CONTENT CREATOR / INFORMANT</p>
+                <p>STATUS: ACTIVE // ROLE: THE SPIRITUAL ROOMMATE</p>
             </div>
             <div class="data-panel">
-                <h2>機密檔案 / CLASSIFIED DATA</h2>
+                <h2>個人檔案 / PROFILE DATA</h2>
                 <div class="info-row"><div class="label">年齡</div><div class="value scramble" data-text="30 歲 (看起來像25)"></div></div>
                 <div class="info-row"><div class="label">身高</div><div class="value scramble" data-text="188 cm"></div></div>
                 <div class="info-row"><div class="label">生日</div><div class="value scramble" data-text="4/1 (牡羊座)"></div></div>
@@ -195,7 +168,7 @@
                 <div class="info-row"><div class="label">住處</div><div class="value scramble" data-text="首都"></div></div>
             </div>
             <div class="data-panel">
-                <h2>接觸紀錄 / ENCOUNTER LOG</h2>
+                <h2>應徵紀錄 / ASSISTANT LOG</h2>
                 <div class="typing-container"><span id="typewriter"></span><span class="cursor"></span></div>
             </div>
         </div>
@@ -204,58 +177,44 @@
     <div class="gallery-container">
         <h2 class="gallery-title">影像存檔 / VISUAL LOGS</h2>
         <div class="gallery-grid">
-            <div class="gallery-item"><img src="../images/hesheng_photo1.jpg" alt="紀錄照片1"></div>
-            <div class="gallery-item"><img src="../images/hesheng_photo2.jpg" alt="紀錄照片2"></div>
-            <div class="gallery-item"><img src="../images/hesheng_photo3.jpg" alt="紀錄照片3"></div>
-            <div class="gallery-item"><img src="../images/hesheng_photo4.jpg" alt="紀錄照片4"></div>
+            <div class="gallery-item"><img src="../images/hesheng_1.jpg" alt="直播截圖"></div>
+            <div class="gallery-item"><img src="../images/hesheng_2.jpg" alt="布丁精靈"></div>
+            <div class="gallery-item"><img src="../images/hesheng_3.jpg" alt="與呱鬆"></div>
         </div>
     </div>
 
-    <div class="lightbox" id="lightbox">
-        <img src="" alt="Enlarged Image" id="lightbox-img">
-    </div>
+    <div class="lightbox" id="lightbox"><img src="" id="lightbox-img"></div>
 
     <script>
-        // 目錄切換
         const toggle = document.getElementById('menuToggle');
         const sideMenu = document.getElementById('sideMenu');
         toggle.addEventListener('click', () => { toggle.classList.toggle('active'); sideMenu.classList.toggle('active'); });
-        window.addEventListener('click', (e) => { if (sideMenu.classList.contains('active') && e.target !== sideMenu && e.target !== toggle && !toggle.contains(e.target)) { toggle.classList.remove('active'); sideMenu.classList.remove('active'); } });
 
-        // 燈箱放大功能
         const lightbox = document.getElementById('lightbox');
         const lightboxImg = document.getElementById('lightbox-img');
-        const galleryImages = document.querySelectorAll('.gallery-item img');
-        galleryImages.forEach(img => { img.addEventListener('click', () => { lightboxImg.src = img.src; lightbox.classList.add('active'); }); });
+        document.querySelectorAll('.gallery-item img').forEach(img => { img.addEventListener('click', () => { lightboxImg.src = img.src; lightbox.classList.add('active'); }); });
         lightbox.addEventListener('click', () => { lightbox.classList.remove('active'); });
 
-        // 矩陣動畫 (黃色版)
         const canvas = document.getElementById('matrix-bg');
         const ctx = canvas.getContext('2d');
         function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
         resize();
         window.addEventListener('resize', resize);
-        
         const chars = "0123456789ABCDEF";
-        const cities = ["MEME", "PUDDING", "STREAM", "VIRAL", "YOUTUBE"]; 
-        const fontSize = 16;
-        const columns = Math.floor(canvas.width / fontSize);
-        const drops = Array(columns).fill(1);
+        const keywords = ["PUDDING", "GUASONG", "MEME", "HUMANPUDDI", "SHAAK"];
+        const drops = Array(Math.floor(canvas.width/16)).fill(1);
         function draw() {
-            ctx.fillStyle = "rgba(5, 5, 5, 0.08)";
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = "#ffff00"; // 黃色數據流
-            ctx.font = fontSize + "px 'Noto Sans TC'";
+            ctx.fillStyle = "rgba(5, 5, 5, 0.1)"; ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "#ffff00"; ctx.font = "16px monospace";
             drops.forEach((y, i) => {
-                const text = Math.random() > 0.98 ? cities[Math.floor(Math.random() * cities.length)] : chars[Math.floor(Math.random() * chars.length)];
-                ctx.fillText(text, i * fontSize, y * fontSize);
-                if (y * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+                const text = Math.random() > 0.98 ? keywords[Math.floor(Math.random()*keywords.length)] : chars[Math.floor(Math.random()*chars.length)];
+                ctx.fillText(text, i*16, y*16);
+                if(y*16 > canvas.height && Math.random() > 0.975) drops[i] = 0;
                 drops[i]++;
             });
         }
         setInterval(draw, 35);
 
-        // 系統解碼特效
         class TextScramble {
             constructor(el) { this.el = el; this.chars = '!<>-_\\/[]{}—=+*^?#________'; this.update = this.update.bind(this); }
             setText(newText) {
@@ -263,39 +222,33 @@
                 const promise = new Promise((resolve) => this.resolve = resolve); this.queue = [];
                 for (let i = 0; i < length; i++) {
                     const from = oldText[i] || ''; const to = newText[i] || '';
-                    const start = Math.floor(Math.random() * 40); const end = start + Math.floor(Math.random() * 40);
+                    const start = Math.floor(Math.random()*40); const end = start + Math.floor(Math.random()*40);
                     this.queue.push({ from, to, start, end });
                 }
                 cancelAnimationFrame(this.frameRequest); this.frame = 0; this.update(); return promise;
             }
             update() {
                 let output = ''; let complete = 0;
-                for (let i = 0, n = this.queue.length; i < n; i++) {
+                for (let i=0, n=this.queue.length; i<n; i++) {
                     let { from, to, start, end, char } = this.queue[i];
                     if (this.frame >= end) { complete++; output += to; }
                     else if (this.frame >= start) {
                         if (!char || Math.random() < 0.28) { char = this.randomChar(); this.queue[i].char = char; }
-                        output += `<span style="color: #ffff00; opacity: 0.7;">${char}</span>`; 
+                        output += `<span style="color: #ffff00; opacity: 0.7;">${char}</span>`;
                     } else { output += from; }
                 }
                 this.el.innerHTML = output;
                 if (complete === this.queue.length) { this.resolve(); } else { this.frameRequest = requestAnimationFrame(this.update); this.frame++; }
             }
-            randomChar() { return this.chars[Math.floor(Math.random() * this.chars.length)]; }
+            randomChar() { return this.chars[Math.floor(Math.random()*this.chars.length)]; }
         }
-        setTimeout(() => { document.querySelectorAll('.scramble').forEach(el => { const fx = new TextScramble(el); fx.setText(el.getAttribute('data-text')); }); }, 500); 
+        setTimeout(() => { document.querySelectorAll('.scramble').forEach(el => { const fx = new TextScramble(el); fx.setText(el.getAttribute('data-text')); }); }, 500);
 
-        // 打字機特效
-        const storyText = "鏡頭前，他是瘋狂吃布丁、滿嘴迷因的百萬訂閱網紅；鏡頭後，他卻是地下情報網最廣的眼線。你們的相識始於一場看似意外的街頭惡搞企劃，當他笑嘻嘻地把麥克風遞給妳時，其實早就把妳的底細查得一清二楚了……";
+        const storyText = "原本以為這位擁有 66 萬粉絲的網紅只是個瘋癲的表演者 ，但在應徵成為他的小助理後，妳才看見他在鏡頭背後清醒又懂分寸的模樣 。他在工作室裡沒日沒夜地策劃腳本 ，卻總能注意到妳的疲憊並策劃小驚喜給妳。妳被他那雙灰藍色眼眸盯著、聽他用磁性清亮的聲音模仿妳說話時 ，妳才發現老闆……";
         const typeContainer = document.getElementById('typewriter');
-        let typeIndex = 0;
-        function typeWriter() {
-            if (typeIndex < storyText.length) {
-                typeContainer.innerHTML += storyText.charAt(typeIndex); typeIndex++;
-                const randomSpeed = Math.floor(Math.random() * 40) + 10; setTimeout(typeWriter, randomSpeed);
-            }
-        }
-        setTimeout(typeWriter, 1500);
+        let idx = 0;
+        function type() { if(idx < storyText.length) { typeContainer.innerHTML += storyText.charAt(idx++); setTimeout(type, 40); } }
+        setTimeout(type, 1800);
     </script>
 </body>
 </html>
