@@ -87,17 +87,28 @@
 
         .card {
             background-color: var(--card-bg);
-            border: 1px solid #333;
+            /* 霓虹基礎邊框：加粗一點並套用青色 */
+            border: 2px solid var(--accent-cyan);
             border-radius: 8px;
             padding: 20px;
-            transition: transform 0.3s ease, border-color 0.3s ease;
+            
+            /* 霓虹發光核心效果：外發光 + 內發光 */
+            box-shadow: 0 0 10px rgba(0, 240, 255, 0.5),
+                        inset 0 0 10px rgba(0, 240, 255, 0.2);
+                        
+            transition: all 0.3s ease-in-out;
         }
 
         .card:hover {
             transform: translateY(-5px);
-            border-color: var(--accent-cyan);
-            box-shadow: 0 5px 15px rgba(0, 240, 255, 0.1);
+            /* 滑鼠移過去時的爆發霓虹感：疊加多層陰影創造強烈光暈 */
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.8),
+                        0 0 40px rgba(0, 240, 255, 0.6),
+                        inset 0 0 20px rgba(0, 240, 255, 0.5);
+            /* 邊框變白，模擬霓虹燈管高亮的核心 */
+            border-color: #ffffff; 
         }
+
 
         .card h3 {
             color: var(--accent-cyan);
@@ -179,3 +190,4 @@
 
 </body>
 </html>
+
