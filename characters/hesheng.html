@@ -102,6 +102,37 @@
         .cursor { display: inline-block; width: 10px; height: 1.2em; background-color: var(--char-color); vertical-align: text-bottom; animation: blink 0.8s infinite; }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
+        /* ========== 意識鏈結按鈕樣式 ========== */
+        .comm-section {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .comm-btn {
+            display: inline-block;
+            padding: 14px 30px;
+            color: var(--char-color);
+            border: 1px solid var(--char-color);
+            text-decoration: none;
+            font-weight: 900;
+            letter-spacing: 4px;
+            border-radius: 4px;
+            transition: all 0.4s;
+            background: rgba(255, 255, 0, 0.05);
+            box-shadow: 0 0 10px rgba(255, 255, 0, 0.1);
+            text-align: center;
+            width: 100%;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+        }
+        .comm-btn:hover {
+            background: var(--char-color);
+            color: #000;
+            box-shadow: 0 0 30px var(--char-color);
+            transform: translateY(-3px);
+            letter-spacing: 6px;
+        }
+
         /* 影像存檔 */
         .gallery-container { width: 90%; max-width: 1200px; margin: 20px auto 60px auto; z-index: 10; }
         .gallery-title { font-size: 1.5rem; color: var(--char-color); border-bottom: 2px solid var(--char-color); padding-bottom: 10px; margin-bottom: 25px; letter-spacing: 3px; }
@@ -170,6 +201,10 @@
             <div class="data-panel">
                 <h2>應徵紀錄 / ASSISTANT LOG</h2>
                 <div class="typing-container"><span id="typewriter"></span><span class="cursor"></span></div>
+                
+                <div class="comm-section">
+                    <a href="https://你的LLM網址" target="_blank" class="comm-btn">啟動意識鏈結 // 開始對話</a>
+                </div>
             </div>
         </div>
     </div>
