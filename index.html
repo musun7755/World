@@ -8,173 +8,77 @@
 <style>
 body {
     margin: 0;
-    background: radial-gradient(circle at 20% 20%, #111827, #05070d 70%);
-    color: #fff;
-    font-family: 'Segoe UI', sans-serif;
-    overflow-x: hidden;
+    background: #0b0f18;
+    font-family: sans-serif;
+    overflow: hidden;
 }
 
-/* 頂部 */
-header {
-    text-align: center;
-    padding: 40px 0 20px 0;
+/* 滑動容器 */
+.slider {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
 }
 
-header h1 {
-    font-weight: 300;
-    letter-spacing: 4px;
-    font-size: 28px;
-    text-transform: uppercase;
+.slide {
+    flex: 0 0 100vw; /* 每張佔滿整個畫面 */
+    height: 100vh;
+    scroll-snap-align: center;
+    position: relative;
+}
+
+.slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.name {
+    position: absolute;
+    bottom: 40px;
+    left: 40px;
+    font-size: 32px;
+    color: white;
     background: linear-gradient(90deg, #00f0ff, #ff00c8);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-}
-
-/* 掃描線 */
-.scanline {
-    height: 2px;
-    width: 100%;
-    background: linear-gradient(90deg, transparent, #00f0ff, #ff00c8, transparent);
-    animation: scan 4s linear infinite;
-}
-
-@keyframes scan {
-    0% { opacity: 0.2; }
-    50% { opacity: 1; }
-    100% { opacity: 0.2; }
-}
-
-/* 滑動區塊 */
-.slider-container {
-    height: 75vh;
-    display: flex;
-    align-items: center;
-    overflow: hidden;
-    padding: 0 60px;
-}
-
-.slider {
-    display: flex;
-    gap: 40px;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    padding: 40px 0;
-    width: max-content; /* 強制產生滾動空間 */
-}
-
-.slider::-webkit-scrollbar {
-    height: 6px;
-}
-
-.slider::-webkit-scrollbar-thumb {
-    background: linear-gradient(90deg, #00f0ff, #ff00c8);
-    border-radius: 4px;
-}
-
-/* 卡片 */
-.card {
-    flex: 0 0 280px; /* 關鍵修正：禁止縮小 */
-    height: 420px;
-    background: rgba(20, 25, 35, 0.6);
-    backdrop-filter: blur(10px);
-    border-radius: 20px;
-    overflow: hidden;
-    position: relative;
-    scroll-snap-align: center;
-    cursor: pointer;
-    transition: 0.4s;
-    border: 1px solid rgba(255,255,255,0.05);
-}
-
-.card::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: 20px;
-    padding: 1px;
-    background: linear-gradient(135deg, #00f0ff, #ff00c8);
-    -webkit-mask:
-        linear-gradient(#000 0 0) content-box,
-        linear-gradient(#000 0 0);
-    -webkit-mask-composite: xor;
-            mask-composite: exclude;
-    opacity: 0;
-    transition: 0.4s;
-}
-
-.card:hover::before {
-    opacity: 1;
-}
-
-.card:hover {
-    transform: translateY(-12px);
-    box-shadow: 0 20px 40px rgba(0, 240, 255, 0.2),
-                0 20px 40px rgba(255, 0, 200, 0.2);
-}
-
-.card img {
-    width: 100%;
-    height: 85%;
-    object-fit: cover;
-    filter: brightness(0.9);
-}
-
-.card-name {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    padding: 18px;
-    font-size: 18px;
-    letter-spacing: 2px;
-    background: linear-gradient(transparent, rgba(0,0,0,0.9));
 }
 </style>
 </head>
 
 <body>
 
-<header>
-    <h1>LLM BOYFRIEND SYSTEM</h1>
-    <div class="scanline"></div>
-</header>
+<div class="slider">
 
-<div class="slider-container">
-    <div class="slider" id="boyfriendSlider"></div>
+    <div class="slide">
+        <img src="images/yan.jpg">
+        <div class="name">焱狩</div>
+    </div>
+
+    <div class="slide">
+        <img src="images/jiu.jpg">
+        <div class="name">汣司</div>
+    </div>
+
+    <div class="slide">
+        <img src="images/shao.jpg">
+        <div class="name">邵安</div>
+    </div>
+
+    <div class="slide">
+        <img src="images/he.jpg">
+        <div class="name">赫湦</div>
+    </div>
+
+    <div class="slide">
+        <img src="images/ran.jpg">
+        <div class="name">霽冉</div>
+    </div>
+
 </div>
-
-<script>
-const boyfriends = [
-    { id: "yan", name: "焱狩", image: "images/yan.jpg" },
-    { id: "jiu", name: "汣司", image: "images/jiu.jpg" },
-    { id: "shao", name: "邵安", image: "images/shao.jpg" },
-    { id: "he", name: "赫湦", image: "images/he.jpg" },
-    { id: "ran", name: "霽冉", image: "images/ran.jpg" }
-];
-
-const slider = document.getElementById("boyfriendSlider");
-
-boyfriends.forEach(bf => {
-    const card = document.createElement("div");
-    card.classList.add("card");
-
-    card.innerHTML = `
-        <img src="${bf.image}" alt="${bf.name}">
-        <div class="card-name">${bf.name}</div>
-    `;
-
-    card.onclick = () => {
-        window.location.href = `profile.html?id=${bf.id}`;
-    };
-
-    slider.appendChild(card);
-});
-
-/* 滑鼠滾輪 → 橫向滑動 */
-slider.addEventListener("wheel", (e) => {
-    e.preventDefault();
-    slider.scrollLeft += e.deltaY;
-});
-</script>
 
 </body>
 </html>
