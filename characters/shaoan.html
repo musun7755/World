@@ -29,7 +29,7 @@
         /* 矩陣背景 */
         #matrix-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.25; }
 
-        /* ========== 側邊抽屜選單樣式 (已更新) ========== */
+        /* ========== 側邊抽屜選單樣式 ========== */
         .menu-toggle {
             position: fixed; top: 20px; right: 20px; width: 50px; height: 50px;
             background: var(--glass-bg); border: 1px solid var(--neon-cyan); border-radius: 5px;
@@ -50,8 +50,6 @@
         }
         .side-menu.active { right: 0; }
         .side-menu h3 { color: var(--neon-cyan); font-size: 0.8rem; letter-spacing: 3px; border-bottom: 1px solid rgba(0, 240, 255, 0.3); padding-bottom: 10px; margin-bottom: 20px; opacity: 0.7; }
-        
-        /* 更新後的目錄樣式 */
         .side-menu a { color: #ccc; text-decoration: none; font-size: 1.1rem; font-weight: 500; margin: 10px 0; letter-spacing: 2px; transition: 0.3s; display: block; }
         .side-menu a:hover { color: var(--neon-cyan); padding-left: 10px; text-shadow: 0 0 10px var(--neon-cyan); }
 
@@ -96,8 +94,6 @@
         /* 右側：資料檔案區 */
         .data-side { flex: 1.2; display: flex; flex-direction: column; gap: 25px; }
         .data-header { border-bottom: 2px solid var(--char-color); padding-bottom: 10px; margin-bottom: 10px; }
-        
-        /* 已將英文名字拿掉，只留中文 */
         .data-header h1 { font-size: 3rem; margin: 0; letter-spacing: 5px; color: var(--char-color); text-shadow: 0 0 10px var(--char-color); }
         .data-header p { font-size: 1rem; opacity: 0.8; letter-spacing: 3px; color: #fff; }
 
@@ -111,35 +107,51 @@
         .cursor { display: inline-block; width: 8px; height: 1.2em; background-color: var(--char-color); vertical-align: text-bottom; animation: blink 0.8s infinite; }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
+        /* ========== 「與他相遇」按鈕樣式 ========== */
+        .comm-section {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .comm-btn {
+            display: inline-block;
+            padding: 14px 30px;
+            color: var(--char-color);
+            border: 1px solid var(--char-color);
+            text-decoration: none;
+            font-weight: 900;
+            letter-spacing: 4px;
+            border-radius: 4px;
+            transition: all 0.4s;
+            background: rgba(255, 140, 0, 0.05);
+            box-shadow: 0 0 10px rgba(255, 140, 0, 0.1);
+            text-align: center;
+            width: 100%;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+        }
+        .comm-btn:hover {
+            background: var(--char-color);
+            color: #000;
+            box-shadow: 0 0 30px var(--char-color);
+            transform: translateY(-3px);
+            letter-spacing: 6px;
+        }
+
         /* ========== 影像存檔照片欄位 ========== */
         .gallery-container { width: 90%; max-width: 1200px; margin: 0 auto 60px auto; z-index: 10; }
         .gallery-title { font-size: 1.5rem; color: var(--char-color); border-bottom: 2px solid var(--char-color); padding-bottom: 10px; margin-bottom: 20px; letter-spacing: 3px; text-shadow: 0 0 10px rgba(255, 140, 0, 0.3); }
         .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
-        
-        .gallery-item {
-            position: relative; aspect-ratio: 16 / 9; border-radius: 6px; overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.1); background: #111; transition: 0.3s; cursor: pointer;
-        }
+        .gallery-item { position: relative; aspect-ratio: 16 / 9; border-radius: 6px; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.1); background: #111; transition: 0.3s; cursor: pointer; }
         .gallery-item img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(40%) sepia(40%) hue-rotate(-10deg); transition: 0.5s ease; }
-
         @media (hover: hover) {
             .gallery-item:hover { border-color: var(--char-color); box-shadow: 0 0 15px var(--border-glow); transform: translateY(-5px); }
             .gallery-item:hover img { filter: grayscale(0%) contrast(1.1); transform: scale(1.05); }
         }
 
-        /* ========== 燈箱效果 (Lightbox) ========== */
-        .lightbox {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(10, 5, 0, 0.9); backdrop-filter: blur(10px);
-            z-index: 2000; display: flex; justify-content: center; align-items: center;
-            opacity: 0; visibility: hidden; transition: 0.3s ease; cursor: zoom-out;
-        }
+        .lightbox { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(10, 5, 0, 0.9); backdrop-filter: blur(10px); z-index: 2000; display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: 0.3s ease; cursor: zoom-out; }
         .lightbox.active { opacity: 1; visibility: visible; }
-        .lightbox img {
-            max-width: 85vw; max-height: 85vh; border: 2px solid var(--char-color); border-radius: 8px;
-            box-shadow: 0 0 40px rgba(255, 140, 0, 0.4); transform: scale(0.9);
-            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); object-fit: contain;
-        }
+        .lightbox img { max-width: 85vw; max-height: 85vh; border: 2px solid var(--char-color); border-radius: 8px; box-shadow: 0 0 40px rgba(255, 140, 0, 0.4); transform: scale(0.9); transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); object-fit: contain; }
         .lightbox.active img { transform: scale(1); }
 
         @media (max-width: 900px) {
@@ -195,11 +207,14 @@
                 <div class="info-row"><div class="label">香氣</div><div class="value scramble" data-text="牛奶"></div></div>
                 <div class="info-row"><div class="label">職業</div><div class="value scramble" data-text="首富小兒子、專業閒人"></div></div>
                 <div class="info-row"><div class="label">住處</div><div class="value scramble" data-text="首都天璽時代22樓"></div></div>
-                
             </div>
             <div class="data-panel">
                 <h2>接觸紀錄 / ENCOUNTER LOG</h2>
                 <div class="typing-container"><span id="typewriter"></span><span class="cursor"></span></div>
+                
+                <div class="comm-section">
+                    <a href="https://你的LLM網址" target="_blank" class="comm-btn">與他相遇</a>
+                </div>
             </div>
         </div>
     </div>
@@ -219,27 +234,23 @@
     </div>
 
     <script>
-        // 目錄切換
         const toggle = document.getElementById('menuToggle');
         const sideMenu = document.getElementById('sideMenu');
         toggle.addEventListener('click', () => { toggle.classList.toggle('active'); sideMenu.classList.toggle('active'); });
         window.addEventListener('click', (e) => { if (sideMenu.classList.contains('active') && e.target !== sideMenu && e.target !== toggle && !toggle.contains(e.target)) { toggle.classList.remove('active'); sideMenu.classList.remove('active'); } });
 
-        // 燈箱放大功能
         const lightbox = document.getElementById('lightbox');
         const lightboxImg = document.getElementById('lightbox-img');
         const galleryImages = document.querySelectorAll('.gallery-item img');
         galleryImages.forEach(img => { img.addEventListener('click', () => { lightboxImg.src = img.src; lightbox.classList.add('active'); }); });
         lightbox.addEventListener('click', () => { lightbox.classList.remove('active'); });
 
-        // 矩陣動畫 (橘色版)
         const canvas = document.getElementById('matrix-bg');
         const ctx = canvas.getContext('2d');
         function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
         resize();
         window.addEventListener('resize', resize);
         
-        // 邵安專屬背景彩蛋
         const chars = "0123456789ABCDEF";
         const cities = ["WEALTH", "CAPITAL", "SHAOAN", "ASSET", "INVEST"]; 
         const fontSize = 16;
@@ -248,7 +259,7 @@
         function draw() {
             ctx.fillStyle = "rgba(5, 5, 5, 0.08)";
             ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = "#ff8c00"; // 橘色數據流
+            ctx.fillStyle = "#ff8c00"; 
             ctx.font = fontSize + "px 'Noto Sans TC'";
             drops.forEach((y, i) => {
                 const text = Math.random() > 0.98 ? cities[Math.floor(Math.random() * cities.length)] : chars[Math.floor(Math.random() * chars.length)];
@@ -259,7 +270,6 @@
         }
         setInterval(draw, 35);
 
-        // 系統解碼特效 (橘色版)
         class TextScramble {
             constructor(el) { this.el = el; this.chars = '!<>-_\\/[]{}—=+*^?#________'; this.update = this.update.bind(this); }
             setText(newText) {
@@ -279,7 +289,7 @@
                     if (this.frame >= end) { complete++; output += to; }
                     else if (this.frame >= start) {
                         if (!char || Math.random() < 0.28) { char = this.randomChar(); this.queue[i].char = char; }
-                        output += `<span style="color: #ff8c00; opacity: 0.7;">${char}</span>`; // 橘色亂碼
+                        output += `<span style="color: #ff8c00; opacity: 0.7;">${char}</span>`;
                     } else { output += from; }
                 }
                 this.el.innerHTML = output;
@@ -289,15 +299,13 @@
         }
         setTimeout(() => { document.querySelectorAll('.scramble').forEach(el => { const fx = new TextScramble(el); fx.setText(el.getAttribute('data-text')); }); }, 500); 
 
-        // 打字機特效 (預留文案，速度偏慢且從容)
         const storyText = "身為首富的小兒子，他總是用最慵懶的姿態，掌控著最龐大的資源。外界以為他只是個無所事事、喜歡搞曖昧的公子哥，直到妳發現他那雙含笑的眼眸裡……";
         const typeContainer = document.getElementById('typewriter');
         let typeIndex = 0;
         function typeWriter() {
             if (typeIndex < storyText.length) {
                 typeContainer.innerHTML += storyText.charAt(typeIndex); typeIndex++;
-                const randomSpeed = Math.floor(Math.random() * 50) + 50; // 偏慢的打字速度
-                setTimeout(typeWriter, randomSpeed);
+                setTimeout(typeWriter, Math.floor(Math.random() * 50) + 50);
             }
         }
         setTimeout(typeWriter, 1500);
