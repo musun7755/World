@@ -4,12 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>福爾摩沙 Formosa｜世界觀設定</title>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
-
     <style>
+        /* =========================================
+           標記：1. 自訂字體區塊
+           請在 GitHub 專案裡建一個名為 fonts 的資料夾，
+           並把你的字體檔案放進去。
+           ========================================= */
+        @font-face {
+            font-family: 'MyCyberFont'; /* 標記：幫你的字體取個代號 */
+            /* 標記：修改下方的路徑與檔名，確保跟你的檔案完全一致（區分大小寫） */
+            src: url('./fonts/你的字體檔名.ttf') format('truetype'); 
+            font-weight: normal;
+            font-style: normal;
+        }
+
         :root {
             --bg-color: #0d0d0d;
             --text-main: #e0e0e0;
@@ -17,33 +25,98 @@
             --accent-purple: #b026ff;
             --card-bg: #1a1a1a;
         }
+
         body {
-            /* 這裡套用新字體 */
-            font-family: 'Noto Sans TC', 'Segoe UI', sans-serif;
+            /* =========================================
+               標記：2. 套用自訂字體
+               把剛才取的代號 'MyCyberFont' 放在最前面。
+               如果載入失敗，會自動使用後面的備用字體。
+               ========================================= */
+            font-family: 'MyCyberFont', 'Segoe UI', Tahoma, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-main);
             line-height: 1.6;
             margin: 0;
             padding: 0;
         }
-        
-        /* ... 中間的 header, h1, h2 設定保持你原本的即可 ... */
+
+        header {
+            background: linear-gradient(90deg, #000000 0%, #111111 100%);
+            border-bottom: 2px solid var(--accent-cyan);
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        h1 {
+            color: var(--accent-cyan);
+            margin: 0;
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+        }
+
+        h2 {
+            color: var(--accent-purple);
+            border-bottom: 1px solid #333;
+            padding-bottom: 10px;
+            margin-top: 40px;
+        }
 
         .container {
-            /* 【修改這裡】把寬度拉大，讓四個城市可以排在同一行 */
-            max-width: 1500px; 
+            /* =========================================
+               標記：3. 解決斷行問題 (容器寬度)
+               這裡原本是 1000px，現改為 1200px，讓畫面夠寬。
+               ========================================= */
+            max-width: 1200px; 
             margin: 0 auto;
             padding: 20px;
         }
+
         .grid {
             display: grid;
-            /* 【修改這裡】卡片最小寬度縮到 240px，這樣電腦版就能一行四個 */
+            /* =========================================
+               標記：4. 解決斷行問題 (卡片寬度)
+               minmax(240px, 1fr) 確保卡片最小不低於 240px，
+               這樣 1200px 的容器剛好可以塞下 4 張卡片並排！
+               ========================================= */
             grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
             gap: 20px;
             margin-top: 20px;
         }
-        
-        /* ... 其他卡片樣式保持原本的即可 ... */
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 20px;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-cyan);
+            box-shadow: 0 5px 15px rgba(0, 240, 255, 0.1);
+        }
+
+        .card h3 {
+            color: var(--accent-cyan);
+            margin-top: 0;
+        }
+
+        .highlight {
+            color: var(--accent-purple);
+            font-weight: bold;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 50px;
+            border-top: 1px solid #333;
+            font-size: 0.9rem;
+            color: #666;
+        }
     </style>
 </head>
 <body>
@@ -56,9 +129,9 @@
     <div class="container">
         <section id="world">
             <h2>🌍 世界觀概述</h2>
-            [cite_start]<p>架空現代世界，類賽博龐克，僅藝術領域高科技，其餘為現代都市風格 [cite: 1]。</p>
-            [cite_start]<p>其他國家如地球現實情況，世界觀開放，國際交流正常 [cite: 1]。</p>
-            [cite_start]<p><strong>國家體制（福爾摩沙）：</strong>現代國家體制，正常法規管理，文化多元 [cite: 1]。</p>
+            <p>架空現代世界，類賽博龐克，僅藝術領域高科技，其餘為現代都市風格 。</p>
+            <p>其他國家如地球現實情況，世界觀開放，國際交流正常 。</p>
+            <p><strong>國家體制（福爾摩沙）：</strong>現代國家體制，正常法規管理，文化多元 。</p>
         </section>
 
         <section id="cities">
@@ -66,26 +139,26 @@
             <div class="grid">
                 <div class="card">
                     <h3>📍 首都 (Capital)</h3>
-                    [cite_start]<p>政治經濟中心，高端人士集中 [cite: 1]。</p>
-                    [cite_start]<p>高樓林立，居民重視生活品質與形象 [cite: 1][cite_start]。市民以捷運／公車／計程車為主要移動方式，有磁浮列車連接機場與外城 [cite: 1]。</p>
+                    <p>政治經濟中心，高端人士集中 。</p>
+                    <p>高樓林立，居民重視生活品質與形象 。市民以捷運／公車／計程車為主要移動方式，有磁浮列車連接機場與外城 。</p>
                 </div>
                 
                 <div class="card">
                     <h3>📍 書城 (Shucheng)</h3>
-                    [cite_start]<p>自由學術區，學生與地下創作活絡 [cite: 1]。</p>
-                    [cite_start]<p>聚集大量學生、創作者、地下講師與實驗派藝術家 [cite: 1][cite_start]。創作題材自由無邊際，從插畫到性別政治，街道本身就像展場 [cite: 1]。</p>
+                    <p>自由學術區，學生與地下創作活絡 。</p>
+                    <p>聚集大量學生、創作者、地下講師與實驗派藝術家 。創作題材自由無邊際，從插畫到性別政治，街道本身就像展場 。</p>
                 </div>
 
                 <div class="card">
                     <h3>📍 古灣 (Guwan)</h3>
-                    [cite_start]<p>舊城區，藝術市集密集，文藝圈活躍 [cite: 1]。</p>
-                    [cite_start]<p>舊城區結構，街道蜿蜒 [cite: 1][cite_start]。白天是藝術市集與展演聚集地，晚上轉為秘密交易、情色展演與創作者交誼場合 [cite: 1]。</p>
+                    <p>舊城區，藝術市集密集，文藝圈活躍 。</p>
+                    <p>舊城區結構，街道蜿蜒 。白天是藝術市集與展演聚集地，晚上轉為秘密交易、情色展演與創作者交誼場合 。</p>
                 </div>
 
                 <div class="card">
                     <h3>📍 灰港 (Huigang)</h3>
-                    [cite_start]<p>極端自治特區，地下文化活躍，法律邊界模糊 [cite: 1]。</p>
-                    [cite_start]<p>政府僅名義管理，實際由地下圈自行運作 [cite: 1][cite_start]。城市氛圍以冷灰工業感為主，高樓、舊街混雜，全城瀰漫霓虹光 [cite: 1]。</p>
+                    <p>極端自治特區，地下文化活躍，法律邊界模糊 。</p>
+                    <p>政府僅名義管理，實際由地下圈自行運作 。城市氛圍以冷灰工業感為主，高樓、舊街混雜，全城瀰漫霓虹光 。</p>
                 </div>
             </div>
         </section>
@@ -93,9 +166,9 @@
         <section id="tech">
             <h2>🎛️ 特殊科技：聲紋 (Voiceprint)</h2>
             <div class="card" style="border-color: var(--accent-purple);">
-                [cite_start]<p>特有科技集中在藝術領域：<span class="highlight">聲紋雕刻機、高科技刺青機、即時聲紋影像裝置廣泛使用</span> [cite: 1]。</p>
-                [cite_start]<p><strong>定義：</strong>聲音的頻率與波形紋理數據，可儲存、加工、雕刻、轉印為實體 [cite: 1]。</p>
-                [cite_start]<p>這項技術在「灰港」的地下圈中被發展到極致，包含聲音藝術、影像藝術與刺青藝術 [cite: 1]。</p>
+                <p>特有科技集中在藝術領域：<span class="highlight">聲紋雕刻機、高科技刺青機、即時聲紋影像裝置廣泛使用</span> 。</p>
+                <p><strong>定義：</strong>聲音的頻率與波形紋理數據，可儲存、加工、雕刻、轉印為實體 。</p>
+                <p>這項技術在「灰港」的地下圈中被發展到極致，包含聲音藝術、影像藝術與刺青藝術 。</p>
             </div>
         </section>
     </div>
@@ -105,6 +178,4 @@
     </footer>
 
 </body>
-
 </html>
-
