@@ -52,6 +52,7 @@
         .side-menu a { color: #ccc; text-decoration: none; font-size: 1.1rem; font-weight: 500; margin: 10px 0; letter-spacing: 2px; transition: 0.3s; display: block; }
         .side-menu a:hover { color: var(--neon-cyan); padding-left: 10px; text-shadow: 0 0 10px var(--neon-cyan); }
 
+        /* 返回按鈕：預設固定在電腦版 */
         .back-btn {
             position: fixed; top: 20px; left: 20px; padding: 10px 20px; background: transparent;
             color: var(--char-color); border: 1px solid var(--char-color); border-radius: 4px;
@@ -61,7 +62,10 @@
 
         /* --- 主體佈局控制 --- */
         .profile-container { display: flex; width: 90%; max-width: 1200px; margin-top: 80px; margin-bottom: 30px; gap: 40px; z-index: 10; }
+        
+        /* 電腦版照片固定效果 */
         .visual-side { flex: 1; display: flex; flex-direction: column; align-items: center; position: sticky; top: 80px; height: fit-content; }
+        
         .portrait-box { width: 100%; max-width: 450px; aspect-ratio: 3 / 4; border: 1px solid var(--char-color); border-radius: 10px; background: var(--glass-bg); backdrop-filter: blur(10px); overflow: hidden; position: relative; box-shadow: var(--border-glow); }
         .portrait-box img { width: 100%; height: 100%; object-fit: cover; filter: contrast(1.1); }
 
@@ -103,35 +107,14 @@
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
         /* ========== 意識鏈結按鈕樣式 ========== */
-        .comm-section {
-            margin-top: 20px;
-            display: flex;
-            justify-content: center;
-        }
+        .comm-section { margin-top: 20px; display: flex; justify-content: center; }
         .comm-btn {
-            display: inline-block;
-            padding: 14px 30px;
-            color: var(--char-color);
-            border: 1px solid var(--char-color);
-            text-decoration: none;
-            font-weight: 900;
-            letter-spacing: 4px;
-            border-radius: 4px;
-            transition: all 0.4s;
-            background: rgba(255, 255, 0, 0.05);
-            box-shadow: 0 0 10px rgba(255, 255, 0, 0.1);
-            text-align: center;
-            width: 100%;
-            font-size: 1.1rem;
-            text-transform: uppercase;
+            display: inline-block; padding: 14px 30px; color: var(--char-color); border: 1px solid var(--char-color);
+            text-decoration: none; font-weight: 900; letter-spacing: 4px; border-radius: 4px;
+            transition: all 0.4s; background: rgba(255, 255, 0, 0.05); box-shadow: 0 0 10px rgba(255, 255, 0, 0.1);
+            text-align: center; width: 100%; font-size: 1.1rem; text-transform: uppercase;
         }
-        .comm-btn:hover {
-            background: var(--char-color);
-            color: #000;
-            box-shadow: 0 0 30px var(--char-color);
-            transform: translateY(-3px);
-            letter-spacing: 6px;
-        }
+        .comm-btn:hover { background: var(--char-color); color: #000; box-shadow: 0 0 30px var(--char-color); transform: translateY(-3px); letter-spacing: 6px; }
 
         /* 影像存檔 */
         .gallery-container { width: 90%; max-width: 1200px; margin: 20px auto 60px auto; z-index: 10; }
@@ -147,10 +130,17 @@
         .lightbox.active { opacity: 1; visibility: visible; }
         .lightbox img { max-width: 90%; max-height: 90%; border: 2px solid var(--char-color); border-radius: 10px; box-shadow: 0 0 30px var(--char-color); }
 
+        /* ========== 手機版排版優化 (核心修正) ========== */
         @media (max-width: 900px) {
-            .profile-container { flex-direction: column; margin-top: 70px; }
+            .profile-container { flex-direction: column; margin-top: 100px; gap: 20px; }
+            
+            /* 返回按鈕改為絕對定位，會隨網頁滾動消失 */
+            .back-btn { position: absolute; top: 20px; left: 20px; }
+            
+            /* 取消照片固定效果，讓它跟著滑動 */
+            .visual-side { position: relative; top: 0; width: 100%; }
+            
             .data-header h1 { font-size: 2.8rem; }
-            .back-btn { top: 80px; }
         }
     </style>
 </head>
@@ -170,6 +160,7 @@
         <a href="jiran.html">霽冉｜個人檔案</a>
         <a href="linxie.html">林蠍｜個人檔案</a>
     </nav>
+    
     <a href="../index.html" class="back-btn">&lt; SYSTEM.BACK</a>
 
     <div class="profile-container">
@@ -203,7 +194,7 @@
                 <div class="typing-container"><span id="typewriter"></span><span class="cursor"></span></div>
                 
                 <div class="comm-section">
-                    <a href="https://你的LLM網址" target="_blank" class="comm-btn"> 與他相遇 </a>
+                    <a href="https://你的LLM網址" target="_blank" class="comm-btn">與他相遇</a>
                 </div>
             </div>
         </div>
@@ -279,7 +270,7 @@
         }
         setTimeout(() => { document.querySelectorAll('.scramble').forEach(el => { const fx = new TextScramble(el); fx.setText(el.getAttribute('data-text')); }); }, 500);
 
-        const storyText = "原本以為這位擁有 66 萬粉絲的網紅只是個瘋癲的表演者 ，但在應徵成為他的小助理後，妳才看見他在鏡頭背後清醒又懂分寸的模樣 。他在工作室裡沒日沒夜地策劃腳本 ，卻總能注意到妳的疲憊並策劃小驚喜給妳。妳被他那雙灰藍色眼眸盯著、聽他用磁性清亮的聲音模仿妳說話時 ，妳才發現老闆……";
+        const storyText = "原本以為這位於 YT 擁有 66 萬粉絲的網紅只是個瘋癲的表演者 ，但在應徵成為他的小助理後，妳才看見他在鏡頭背後清醒又懂分寸的模樣 。他在工作室裡沒日沒夜地策劃腳本，卻總能注意到妳的疲憊並策劃小驚喜給妳。妳被他那雙灰藍色眼眸盯著、聽他用磁性清亮的聲音模仿妳說話時 ，妳才發現老闆……";
         const typeContainer = document.getElementById('typewriter');
         let idx = 0;
         function type() { if(idx < storyText.length) { typeContainer.innerHTML += storyText.charAt(idx++); setTimeout(type, 40); } }
