@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Personnel: Yanshou // 焱狩</title>
+    <title>Personnel:焱狩</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -30,104 +30,52 @@
 
         /* ========== 側邊抽屜選單樣式 ========== */
         .menu-toggle {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            width: 50px;
-            height: 50px;
-            background: var(--glass-bg);
-            border: 1px solid var(--neon-cyan);
-            border-radius: 5px;
-            cursor: pointer;
-            z-index: 1001;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            gap: 6px;
-            box-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
-            transition: 0.3s;
+            position: fixed; top: 20px; right: 20px; width: 50px; height: 50px;
+            background: var(--glass-bg); border: 1px solid var(--neon-cyan); border-radius: 5px;
+            cursor: pointer; z-index: 1001; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; gap: 6px; box-shadow: 0 0 10px rgba(0, 240, 255, 0.3); transition: 0.3s;
         }
         .menu-toggle:hover { box-shadow: 0 0 20px var(--neon-cyan); }
         .menu-toggle span { width: 30px; height: 2px; background: var(--neon-cyan); transition: 0.3s; }
-        
         .menu-toggle.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
         .menu-toggle.active span:nth-child(2) { opacity: 0; }
         .menu-toggle.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
 
         .side-menu {
-            position: fixed;
-            top: 0;
-            right: -300px; 
-            width: 300px;
-            height: 100%;
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border-left: 1px solid var(--neon-cyan);
-            z-index: 1000;
-            display: flex;
-            flex-direction: column;
-            padding: 100px 30px 30px 30px;
-            box-sizing: border-box;
-            transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+            position: fixed; top: 0; right: -300px; width: 300px; height: 100%;
+            background: var(--glass-bg); backdrop-filter: blur(20px); border-left: 1px solid var(--neon-cyan);
+            z-index: 1000; display: flex; flex-direction: column; padding: 100px 30px 30px 30px;
+            box-sizing: border-box; transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
         }
         .side-menu.active { right: 0; }
         .side-menu h3 { color: var(--neon-cyan); font-size: 0.8rem; letter-spacing: 3px; border-bottom: 1px solid rgba(0, 240, 255, 0.3); padding-bottom: 10px; margin-bottom: 20px; opacity: 0.7; }
         .side-menu a { color: #ccc; text-decoration: none; font-size: 1.1rem; font-weight: 500; margin: 10px 0; letter-spacing: 2px; transition: 0.3s; display: block; }
         .side-menu a:hover { color: var(--neon-cyan); padding-left: 10px; text-shadow: 0 0 10px var(--neon-cyan); }
 
+        /* 返回按鈕：預設固定定位（電腦版） */
         .back-btn {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            padding: 10px 20px;
-            background: transparent;
-            color: var(--char-color);
-            border: 1px solid var(--char-color);
-            border-radius: 4px;
-            text-decoration: none;
-            font-weight: bold;
-            letter-spacing: 2px;
-            z-index: 100;
-            transition: 0.3s;
-            box-shadow: var(--border-glow);
+            position: fixed; top: 20px; left: 20px; padding: 10px 20px; background: transparent;
+            color: var(--char-color); border: 1px solid var(--char-color); border-radius: 4px;
+            text-decoration: none; font-weight: bold; letter-spacing: 2px; z-index: 100; transition: 0.3s; box-shadow: var(--border-glow);
         }
         .back-btn:hover { background: var(--char-color); color: #fff; box-shadow: 0 0 20px var(--char-color); }
 
         /* --- 主體佈局控制 --- */
-        .profile-container {
-            display: flex;
-            width: 90%;
-            max-width: 1200px;
-            margin-top: 80px;
-            margin-bottom: 30px;
-            gap: 40px;
-            z-index: 10;
-        }
-
+        .profile-container { display: flex; width: 90%; max-width: 1200px; margin-top: 80px; margin-bottom: 30px; gap: 40px; z-index: 10; }
+        
+        /* 電腦版照片區塊：固定效果 */
         .visual-side { flex: 1; display: flex; flex-direction: column; align-items: center; position: sticky; top: 80px; height: fit-content; }
+        
         .portrait-box { width: 100%; max-width: 450px; aspect-ratio: 3 / 4; border: 1px solid var(--char-color); border-radius: 10px; background: var(--glass-bg); backdrop-filter: blur(10px); overflow: hidden; position: relative; box-shadow: var(--border-glow); }
         .portrait-box img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(10%) contrast(1.3); }
 
         /* 心電圖波形 */
         .heartbeat-equalizer {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 2px;
-            height: 30px;
-            align-items: flex-end;
-            z-index: 5;
-            opacity: 0.8;
+            position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+            display: flex; gap: 2px; height: 30px; align-items: flex-end; z-index: 5; opacity: 0.8;
         }
         .ecg-bar {
-            width: 4px;
-            background: var(--char-color);
-            box-shadow: 0 0 8px var(--char-color);
-            height: 4px; 
+            width: 4px; background: var(--char-color); box-shadow: 0 0 8px var(--char-color); height: 4px; 
             animation: ecg-jump 2s infinite linear;
         }
         .ecg-bar:nth-child(1) { animation-delay: 0.1s; } 
@@ -162,36 +110,15 @@
         .cursor { display: inline-block; width: 8px; height: 1.2em; background-color: var(--char-color); vertical-align: text-bottom; animation: blink 0.8s infinite; }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
-        /* ========== 「與他相遇」按鈕樣式 ========== */
-        .comm-section {
-            margin-top: 20px;
-            display: flex;
-            justify-content: center;
-        }
+        /* 「與他相遇」按鈕 */
+        .comm-section { margin-top: 20px; display: flex; justify-content: center; }
         .comm-btn {
-            display: inline-block;
-            padding: 14px 30px;
-            color: var(--char-color);
-            border: 1px solid var(--char-color);
-            text-decoration: none;
-            font-weight: 900;
-            letter-spacing: 4px;
-            border-radius: 4px;
-            transition: all 0.4s;
-            background: rgba(255, 0, 0, 0.05);
-            box-shadow: 0 0 10px rgba(255, 0, 0, 0.1);
-            text-align: center;
-            width: 100%;
-            font-size: 1.1rem;
-            text-transform: uppercase;
+            display: inline-block; padding: 14px 30px; color: var(--char-color); border: 1px solid var(--char-color);
+            text-decoration: none; font-weight: 900; letter-spacing: 4px; border-radius: 4px;
+            transition: all 0.4s; background: rgba(255, 0, 0, 0.05); box-shadow: 0 0 10px rgba(255, 0, 0, 0.1);
+            text-align: center; width: 100%; font-size: 1.1rem; text-transform: uppercase;
         }
-        .comm-btn:hover {
-            background: var(--char-color);
-            color: #fff;
-            box-shadow: 0 0 30px var(--char-color);
-            transform: translateY(-3px);
-            letter-spacing: 6px;
-        }
+        .comm-btn:hover { background: var(--char-color); color: #fff; box-shadow: 0 0 30px var(--char-color); transform: translateY(-3px); letter-spacing: 6px; }
 
         /* 影像存檔 */
         .gallery-container { width: 90%; max-width: 1200px; margin: 0 auto 60px auto; z-index: 10; }
@@ -209,11 +136,17 @@
         .lightbox img { max-width: 85vw; max-height: 85vh; border: 2px solid var(--char-color); border-radius: 8px; box-shadow: 0 0 40px rgba(255, 0, 0, 0.6); transform: scale(0.9); transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); object-fit: contain; }
         .lightbox.active img { transform: scale(1); }
 
+        /* ========== 手機版排版優化 (核心修正) ========== */
         @media (max-width: 900px) {
-            .profile-container { flex-direction: column; margin-top: 70px; gap: 20px; }
-            .visual-side { position: relative; top: 0; }
+            .profile-container { flex-direction: column; margin-top: 100px; gap: 20px; }
+            
+            /* 返回按鈕改為絕對定位，隨頁面滑走 */
+            .back-btn { position: absolute; top: 20px; left: 20px; }
+            
+            /* 取消照片固定效果，讓照片隨頁面滑走 */
+            .visual-side { position: relative; top: 0; width: 100%; }
+            
             .data-header h1 { font-size: 2.2rem; }
-            .back-btn { top: 80px; }
             .gallery-item img { filter: grayscale(10%) contrast(1.1); }
         }
     </style>
@@ -227,13 +160,14 @@
         <a href="../index.html">HOME // 首頁</a>
         <a href="../worldview.html">WORLD // 世界觀</a>
         <h3 style="margin-top: 30px;">PERSONNEL DATA</h3>
-        <a href="jiusi.html">汣司個人檔案</a>
-        <a href="yanshou.html">焱狩個人檔案</a>
-        <a href="hesheng.html">赫湦個人檔案</a>
-        <a href="shaoan.html">邵安個人檔案</a>
-        <a href="jiran.html">霽冉個人檔案</a>
-        <a href="linxie.html">林蠍個人檔案</a>
+        <a href="jiusi.html">汣司｜個人檔案</a>
+        <a href="yanshou.html">焱狩｜個人檔案</a>
+        <a href="hesheng.html">赫湦｜個人檔案</a>
+        <a href="shaoan.html">邵安｜個人檔案</a>
+        <a href="jiran.html">霽冉｜個人檔案</a>
+        <a href="linxie.html">林蠍｜個人檔案</a>
     </nav>
+    
     <a href="../index.html" class="back-btn">&lt; SYSTEM.BACK</a>
 
     <div class="profile-container">
@@ -268,7 +202,7 @@
                 <div class="typing-container"><span id="typewriter"></span><span class="cursor"></span></div>
                 
                 <div class="comm-section">
-                    <a href="https://你的LLM網址" target="_blank" class="comm-btn">與他相遇</a>
+                    <a href="https://abr.ge/sg2us4" target="_blank" class="comm-btn">與他相遇</a>
                 </div>
             </div>
         </div>
@@ -303,7 +237,7 @@
         resize();
         window.addEventListener('resize', resize);
         const chars = "0123456789ABCDEF";
-        const cities = ["焱家", "首都", "BOSS", "CONTROL", "STRATEGY"];
+        const cities = ["焱饗", "焱洵", "小兔子", "焱狩", "焱"];
         const drops = Array(Math.floor(canvas.width / 16)).fill(1);
         function draw() {
             ctx.fillStyle = "rgba(5, 5, 5, 0.08)"; ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -346,7 +280,7 @@
         }
         setTimeout(() => { document.querySelectorAll('.scramble').forEach(el => { const fx = new TextScramble(el); fx.setText(el.getAttribute('data-text')); }); }, 500); 
 
-        const storyText = "妳的父母是焱廷的舊友，意外身亡後由焱家接手撫養  。自幼妳與焱饗形影不離，對這位冷峻的『哥哥』並不熟悉  。在他眼中，成年的妳原本只是觀察與評估的對象  。但他一旦動情，便是絕對佔有 …… ";
+        const storyText = "妳的父母是焱廷的舊友，意外身亡後由焱家接手撫養。自幼妳與焱饗形影不離，對這位冷峻的『哥哥』並不熟悉。在他眼中，成年的妳原本只是觀察與評估的對象。但他一旦動情，便是絕對佔有 …… ";
         const typeContainer = document.getElementById('typewriter');
         let typeIndex = 0;
         function typeWriter() {
