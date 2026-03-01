@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Worldview: Formosa // 福爾摩沙</title>
+    <title>Worldview: Formosa // 福爾摩沙世界觀</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -21,13 +21,13 @@
             overflow-x: hidden;
         }
 
-        #matrix-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.1; }
+        #matrix-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.15; }
 
         /* ========== 側邊抽屜選單樣式 ========== */
         .menu-toggle {
             position: fixed; top: 15px; right: 20px; width: 50px; height: 50px;
             background: var(--glass-bg); border: 1px solid var(--neon-cyan); border-radius: 5px;
-            cursor: pointer; z-index: 1100; display: flex; flex-direction: column;
+            cursor: pointer; z-index: 1200; display: flex; flex-direction: column;
             justify-content: center; align-items: center; gap: 6px; box-shadow: 0 0 10px rgba(0, 240, 255, 0.3); transition: 0.3s;
         }
         .menu-toggle:hover { box-shadow: 0 0 20px var(--neon-cyan); }
@@ -39,7 +39,7 @@
         .side-menu {
             position: fixed; top: 0; right: -300px; width: 300px; height: 100%;
             background: var(--glass-bg); backdrop-filter: blur(20px); border-left: 1px solid var(--neon-cyan);
-            z-index: 1050; display: flex; flex-direction: column; padding: 100px 30px 30px 30px;
+            z-index: 1100; display: flex; flex-direction: column; padding: 100px 30px 30px 30px;
             box-sizing: border-box; transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
         }
         .side-menu.active { right: 0; }
@@ -47,11 +47,21 @@
         .side-menu a { color: #ccc; text-decoration: none; font-size: 1.1rem; font-weight: 500; margin: 10px 0; letter-spacing: 2px; transition: 0.3s; display: block; }
         .side-menu a:hover { color: var(--neon-cyan); padding-left: 10px; text-shadow: 0 0 10px var(--neon-cyan); }
 
-        /* --- 頂部城市導覽列 --- */
+        /* --- 返回按鈕 (獨立於導覽列，向下滑動會消失) --- */
+        .back-btn {
+            position: absolute; top: 20px; left: 20px; color: var(--neon-cyan); 
+            text-decoration: none; font-weight: bold; letter-spacing: 2px; transition: 0.3s; z-index: 1050;
+        }
+        .back-btn:hover { text-shadow: 0 0 10px var(--neon-cyan); }
+
+        /* --- 頂部城市導覽列 (向下滑動會黏在頂端) --- */
         .top-nav {
             position: sticky; top: 0; width: 100%; background: rgba(0,0,0,0.85);
-            backdrop-filter: blur(10px); z-index: 100; border-bottom: 1px solid var(--neon-cyan);
-            display: flex; justify-content: center; gap: 15px; padding: 15px 0;
+            backdrop-filter: blur(10px); z-index: 1000; border-bottom: 1px solid var(--neon-cyan);
+            display: flex; justify-content: center; align-items: center; gap: 15px; 
+            padding: 15px 80px 15px 20px; /* 右側留 80px 給漢堡選單，避免重疊 */
+            margin-top: 60px; /* 讓出頂部空間給返回按鈕 */
+            box-sizing: border-box;
         }
         .nav-tab {
             color: #ccc; text-decoration: none; font-weight: bold; letter-spacing: 2px;
@@ -62,7 +72,6 @@
             color: var(--neon-cyan); border: 1px solid var(--neon-cyan); text-shadow: 0 0 10px var(--neon-cyan);
             background: rgba(0, 240, 255, 0.05);
         }
-        .back-btn { position: absolute; left: 20px; top: 18px; color: var(--neon-cyan); text-decoration: none; font-weight: bold; font-size: 0.9rem; letter-spacing: 1px; }
 
         /* --- 主內容區排版 --- */
         .content-container { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
@@ -74,7 +83,7 @@
         /* 城市 Hero 大圖 */
         .city-hero {
             position: relative; width: 100%; height: 350px; border-radius: 10px; overflow: hidden;
-            margin-bottom: 40px; border: 1px solid rgba(255,255,255,0.1); cursor: zoom-in;
+            margin-bottom: 40px; border: 1px solid rgba(255,255,255,0.1); cursor: zoom-in; box-shadow: 0 10px 30px rgba(0,0,0,0.8);
         }
         .city-hero img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
         .city-hero:hover img { transform: scale(1.02); }
@@ -82,25 +91,25 @@
             position: absolute; bottom: 0; left: 0; width: 100%; padding: 40px 30px 30px 30px;
             background: linear-gradient(transparent, rgba(0,0,0,0.95)); pointer-events: none;
         }
-        .city-hero-text h1 { font-size: 2.8rem; margin: 0; letter-spacing: 5px; color: var(--neon-cyan); }
+        .city-hero-text h1 { font-size: 2.8rem; margin: 0; letter-spacing: 5px; color: var(--neon-cyan); text-shadow: 0 0 15px rgba(0, 240, 255, 0.5); }
         .city-hero-text p { margin-top: 10px; color: #ccc; max-width: 800px; line-height: 1.6; }
 
+        /* 分區標題 */
+        .section-title { color: var(--neon-cyan); border-bottom: 1px solid rgba(0,240,255,0.3); padding-bottom: 10px; margin: 40px 0 20px 0; letter-spacing: 2px; }
+
         /* 地標網格 */
-        .landmark-grid {
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px;
-            margin-bottom: 60px;
-        }
-        .landmark-card {
-            background: var(--glass-bg); border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 8px; overflow: hidden; transition: 0.3s; cursor: zoom-in;
-        }
+        .landmark-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; margin-bottom: 60px; }
+        .landmark-card { background: var(--glass-bg); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; overflow: hidden; transition: 0.3s; display: flex; flex-direction: column; cursor: zoom-in; }
         .landmark-card:hover { border-color: var(--neon-cyan); box-shadow: var(--border-glow); transform: translateY(-5px); }
         .landmark-img { width: 100%; height: 180px; overflow: hidden; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .landmark-img img { width: 100%; height: 100%; object-fit: cover; }
+        .landmark-img img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(30%); transition: 0.5s; }
+        .landmark-card:hover .landmark-img img { transform: scale(1.08); filter: grayscale(0%); }
         
-        .landmark-info { padding: 20px; }
+        .landmark-info { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; }
         .landmark-info h3 { margin: 0 0 10px 0; color: var(--neon-cyan); letter-spacing: 2px; }
-        .landmark-info p { font-size: 0.95rem; color: #bbb; line-height: 1.6; }
+        .landmark-info p { font-size: 0.95rem; color: #bbb; line-height: 1.6; margin: 0; }
+        .detail-tags { margin-top: 15px; display: flex; flex-direction: column; gap: 6px; }
+        .tag { background: rgba(0, 240, 255, 0.1); border-left: 2px solid var(--neon-cyan); padding: 5px 10px; font-size: 0.85rem; color: #ddd; }
 
         /* 燈箱 */
         #lightbox {
@@ -109,14 +118,14 @@
             display: none; justify-content: center; align-items: center; z-index: 2000; cursor: zoom-out;
         }
         #lightbox.active { display: flex; }
-        #lightbox img { max-width: 90%; max-height: 85%; border-radius: 8px; border: 1px solid var(--neon-cyan); box-shadow: 0 0 30px rgba(0, 240, 255, 0.5); transform: scale(0.9); transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        #lightbox img { max-width: 90%; max-height: 85%; border-radius: 8px; border: 1px solid var(--neon-cyan); box-shadow: 0 0 30px rgba(0, 240, 255, 0.5); transform: scale(0.9); transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); object-fit: contain; }
         #lightbox.active img { transform: scale(1); }
 
+        /* ========== 手機版排版優化 ========== */
         @media (max-width: 768px) {
-            .top-nav { flex-wrap: wrap; gap: 8px; padding: 60px 10px 10px 10px; }
+            .top-nav { flex-wrap: wrap; gap: 10px; padding: 10px 60px 10px 10px; justify-content: flex-start; }
             .city-hero { height: 250px; }
             .city-hero-text h1 { font-size: 2rem; }
-            .back-btn { position: absolute; top: 15px; left: 20px; }
         }
     </style>
 </head>
@@ -137,8 +146,9 @@
         <a href="characters/linxie.html">林蠍｜個人檔案</a>
     </nav>
 
+    <a href="index.html" class="back-btn">&lt; SYSTEM.BACK</a>
+
     <nav class="top-nav">
-        <a href="index.html" class="back-btn">&lt; BACK</a>
         <div class="nav-tab active" onclick="showCity('capital')">首都</div>
         <div class="nav-tab" onclick="showCity('bookcity')">書城</div>
         <div class="nav-tab" onclick="showCity('guwan')">古灣</div>
@@ -151,41 +161,41 @@
                 <img src="images/capital_main.jpg" alt="首都">
                 <div class="city-hero-text">
                     <h1>首都</h1>
-                    <p>政治經濟核心，高樓林立。交通網路發達，連接捷運、公車與磁浮列車 。</p>
+                    <p>福爾摩沙的政治與經濟核心。高樓林立，居民重視生活品質。休閒娛樂多樣化，擁有極度發達的大眾運輸與磁浮列車網路。</p>
                 </div>
             </div>
             <div class="landmark-grid">
                 <div class="landmark-card" onclick="openLightbox('images/cap_tower.jpg')">
                     <div class="landmark-img"><img src="images/cap_tower.jpg" alt="光源塔"></div>
-                    <div class="landmark-info"><h3>光源塔</h3><p>125F 高空建築，設有透明步道與彈跳設施 。</p></div>
+                    <div class="landmark-info"><h3>光源塔</h3><p>高達 125F。設有觀景台、景觀餐廳、展演廳，以及透明步道與高空彈跳等高空娛樂設施。</p></div>
                 </div>
                 <div class="landmark-card" onclick="openLightbox('images/cap_crystal.jpg')">
                     <div class="landmark-img"><img src="images/cap_crystal.jpg" alt="晶港區"></div>
-                    <div class="landmark-info"><h3>晶港區</h3><p>繁華商貿帶，五星級酒店與夜店密集地 。</p></div>
+                    <div class="landmark-info"><h3>晶港區</h3><p>首都最繁華的商業娛樂帶。百貨公司、國際酒店、夜店與旗艦商場密集林立。</p></div>
                 </div>
                 <div class="landmark-card" onclick="openLightbox('images/cap_market.jpg')">
                     <div class="landmark-img"><img src="images/cap_market.jpg" alt="光華夜市"></div>
-                    <div class="landmark-info"><h3>光華夜市</h3><p>全國最大夜市，傳統與創意料理匯集地 。</p></div>
+                    <div class="landmark-info"><h3>光華夜市</h3><p>全國最大夜市。傳統小吃、創意料理與潮流攤位聚集，是觀光與社交熱點。</p></div>
                 </div>
                 <div class="landmark-card" onclick="openLightbox('images/cap_park.jpg')">
                     <div class="landmark-img"><img src="images/cap_park.jpg" alt="星輪遊樂園"></div>
-                    <div class="landmark-info"><h3>星輪遊樂園</h3><p>旗艦遊樂園，設有 150m 摩天輪與 VR 館 。</p></div>
+                    <div class="landmark-info"><h3>星輪遊樂園</h3><p>精緻旗艦級遊樂園。擁有 150 公尺摩天輪、沉浸式 VR 館與夜間光雕步道。</p></div>
                 </div>
                 <div class="landmark-card" onclick="openLightbox('images/cap_river.jpg')">
                     <div class="landmark-img"><img src="images/cap_river.jpg" alt="新月河岸公園"></div>
-                    <div class="landmark-info"><h3>新月河岸公園</h3><p>河畔綠帶，深夜設有燈光水舞表演 。</p></div>
+                    <div class="landmark-info"><h3>新月河岸公園</h3><p>知名河畔綠帶。白天適合散步休憩，夜晚有燈光水舞、街頭表演與河邊酒吧。</p></div>
                 </div>
                 <div class="landmark-card" onclick="openLightbox('images/cap_dome.jpg')">
                     <div class="landmark-img"><img src="images/cap_dome.jpg" alt="首都大巨蛋"></div>
-                    <div class="landmark-info"><h3>首都大巨蛋</h3><p>五萬人體育場館，主要大型賽事場地 。</p></div>
+                    <div class="landmark-info"><h3>首都大巨蛋</h3><p>職業聯賽與國際球賽場地，可容納五萬人，緊鄰 G-SPACE 展演中心。</p></div>
                 </div>
                 <div class="landmark-card" onclick="openLightbox('images/cap_gspace.jpg')">
                     <div class="landmark-img"><img src="images/cap_gspace.jpg" alt="G-SPACE"></div>
-                    <div class="landmark-info"><h3>G-SPACE</h3><p>具備開合式圓頂的全國最大表演場地 。</p></div>
+                    <div class="landmark-info"><h3>G-SPACE</h3><p>全國最大型演出場地。容納上萬人，具開合式圓頂，常舉辦演唱會與大型頒獎典禮。</p></div>
                 </div>
                 <div class="landmark-card" onclick="openLightbox('images/cap_airport.jpg')">
                     <div class="landmark-img"><img src="images/cap_airport.jpg" alt="星港國際機場"></div>
-                    <div class="landmark-info"><h3>星港國際機場</h3><p>國際樞紐，結合藝文展區與購物街 。</p></div>
+                    <div class="landmark-info"><h3>星港國際機場</h3><p>國際航線樞紐。航廈內部結合了免稅商場、藝文展區與美食街。</p></div>
                 </div>
             </div>
         </section>
@@ -195,29 +205,39 @@
                 <img src="images/book_main.jpg" alt="書城">
                 <div class="city-hero-text">
                     <h1>書城</h1>
-                    <p>自由學術區，街道即是展場，設有「漂流書車」傳遞靈感 。</p>
+                    <p>自由學術特區，聚集大量學生與實驗派藝術家。創作題材毫無邊際，街道本身就像展場，隨處可見放送匿名作品的「漂流書車」。</p>
                 </div>
             </div>
             <div class="landmark-grid">
                 <div class="landmark-card" onclick="openLightbox('images/book_tower.jpg')">
                     <div class="landmark-img"><img src="images/book_tower.jpg" alt="塔語樓"></div>
-                    <div class="landmark-info"><h3>塔語樓</h3><p>5層地標建築。含棲聲咖啡、泡頁放映與白牆劇場 。</p></div>
+                    <div class="landmark-info">
+                        <h3>塔語樓</h3>
+                        <p>書城最具代表性的公共建築，共 5 層樓。</p>
+                        <div class="detail-tags">
+                            <span class="tag">1F 棲聲咖啡：不限時/共同創作區/留言牆</span>
+                            <span class="tag">2F 紙棚食堂：學生聚集地/夜間限定套餐</span>
+                            <span class="tag">3F 泡頁放映：小型放映空間/可租場自用</span>
+                            <span class="tag">4F 白牆劇場：展演資訊與線上購票</span>
+                            <span class="tag">5F 頂樓廣場：開放平台/常有人彈吉他朗讀</span>
+                        </div>
+                    </div>
                 </div>
                 <div class="landmark-card" onclick="openLightbox('images/book_lib.jpg')">
                     <div class="landmark-img"><img src="images/book_lib.jpg" alt="思潮圖書館"></div>
-                    <div class="landmark-info"><h3>思潮圖書館</h3><p>24H開放。提供自由閱讀與多媒體書區 。</p></div>
+                    <div class="landmark-info"><h3>思潮圖書館</h3><p>24H 開放的知識殿堂。提供自由閱讀空間與多媒體書區。</p></div>
                 </div>
                 <div class="landmark-card" onclick="openLightbox('images/book_alley.jpg')">
                     <div class="landmark-img"><img src="images/book_alley.jpg" alt="語聲巷"></div>
-                    <div class="landmark-info"><h3>語聲巷</h3><p>牆面充滿經典封面圖案拼貼的創作空間 。</p></div>
+                    <div class="landmark-info"><h3>語聲巷</h3><p>各種創作空間林立的巷弄，牆面是經典封面圖案的藝術拼貼。</p></div>
                 </div>
                 <div class="landmark-card" onclick="openLightbox('images/book_market.jpg')">
                     <div class="landmark-img"><img src="images/book_market.jpg" alt="浪頁夜市"></div>
-                    <div class="landmark-info"><h3>浪頁夜市</h3><p>週末限定。包含藝術攤販與街頭表演 。</p></div>
+                    <div class="landmark-info"><h3>浪頁夜市</h3><p>週末限定市集。充滿藝術攤販、出版物交換活動與街頭表演。</p></div>
                 </div>
                 <div class="landmark-card" onclick="openLightbox('images/book_clock.jpg')">
                     <div class="landmark-img"><img src="images/book_clock.jpg" alt="緘默鐘塔"></div>
-                    <div class="landmark-info"><h3>緘默鐘塔</h3><p>8層樓高，可俯瞰城景與遠方山脈 。</p></div>
+                    <div class="landmark-info"><h3>緘默鐘塔</h3><p>8層樓高的指標性建築，可以登高俯瞰書城全貌，天氣好時能看見遠方山脈。</p></div>
                 </div>
             </div>
         </section>
@@ -227,29 +247,36 @@
                 <img src="images/guwan_main.jpg" alt="古灣">
                 <div class="city-hero-text">
                     <h1>古灣</h1>
-                    <p>蜿蜒的老城區。夜晚轉變為秘密交易與秘密展演的場所 。</p>
+                    <p>街道蜿蜒的舊城區。白天是藝術市集與展演聚集地，晚上則轉為秘密交易、情色展演與創作者交誼的神秘場合。</p>
                 </div>
             </div>
             <div class="landmark-grid">
                 <div class="landmark-card" onclick="openLightbox('images/gw_velvet.jpg')">
                     <div class="landmark-img"><img src="images/gw_velvet.jpg" alt="絲絨之境"></div>
-                    <div class="landmark-info"><h3>絲絨之境</h3><p>知名男公關會所。氛圍神祕奢華 。</p></div>
+                    <div class="landmark-info"><h3>絲絨之境</h3><p>隱藏在老建築中的極知名男公關會所，氣氛迷幻且奢華。</p></div>
                 </div>
                 <div class="landmark-card" onclick="openLightbox('images/gw_cat.jpg')">
                     <div class="landmark-img"><img src="images/gw_cat.jpg" alt="霧喵所"></div>
-                    <div class="landmark-info"><h3>霧喵所</h3><p>寵物中途之家。提供領養、寄放與交流空間 。</p></div>
+                    <div class="landmark-info"><h3>霧喵所</h3><p>寵物中途之家。提供領養、寄放，或單純進來與貓咪聊天放鬆的空間。</p></div>
                 </div>
                 <div class="landmark-card" onclick="openLightbox('images/gw_studio.jpg')">
                     <div class="landmark-img"><img src="images/gw_studio.jpg" alt="側光室"></div>
-                    <div class="landmark-info"><h3>側光室</h3><p>可更換佈景的專業出租拍照空間 。</p></div>
+                    <div class="landmark-info"><h3>側光室</h3><p>專業的出租拍照空間，內部機關可任意更換各種攝影佈景。</p></div>
                 </div>
                 <div class="landmark-card" onclick="openLightbox('images/gw_7th.jpg')">
                     <div class="landmark-img"><img src="images/gw_7th.jpg" alt="第七棟"></div>
-                    <div class="landmark-info"><h3>第七棟</h3><p>容納2000人。舉辦演唱會與前衛表演 。</p></div>
+                    <div class="landmark-info"><h3>第七棟</h3><p>多功能展演場，最多可容納 2000 人。經常舉辦演唱會與大型前衛藝術表演。</p></div>
                 </div>
                 <div class="landmark-card" onclick="openLightbox('images/gw_mountain.jpg')">
                     <div class="landmark-img"><img src="images/gw_mountain.jpg" alt="暮白山"></div>
-                    <div class="landmark-info"><h3>暮白山</h3><p>含薄光湯屋與月光觀景平台 。</p></div>
+                    <div class="landmark-info">
+                        <h3>暮白山</h3>
+                        <p>包圍古灣的半環狀山帶，設有步道與觀景點。</p>
+                        <div class="detail-tags">
+                            <span class="tag">薄光湯屋：山腰上的精緻湯屋旅館 (一泊二食)</span>
+                            <span class="tag">月光平台：夜景熱門點，階梯型平台可作戶外演出</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -259,53 +286,59 @@
                 <img src="images/grey_main.jpg" alt="灰港">
                 <div class="city-hero-text">
                     <h1>灰港</h1>
-                    <p>極端自治區。擁有領先世界的聲紋科技，全城瀰漫工業霓虹感 。</p>
+                    <p>極端自治特區，由地下圈自行運作。高樓與舊街混雜，全城瀰漫冷灰工業感與霓虹光。領先世界的聲紋科技在此地廣泛使用。</p>
                 </div>
             </div>
+            
+            <h2 class="section-title">主要地標</h2>
             <div class="landmark-grid">
                 <div class="landmark-card" onclick="openLightbox('images/grey_market.jpg')">
                     <div class="landmark-img"><img src="images/grey_market.jpg" alt="灰港市場"></div>
-                    <div class="landmark-info"><h3>灰港市場</h3><p>販賣機械零件、二手貨與各類小吃 。</p></div>
+                    <div class="landmark-info"><h3>灰港市場</h3><p>白天販賣生鮮食材、機械零件與二手貨，周邊林立各式特色小吃店。</p></div>
                 </div>
                 <div class="landmark-card" onclick="openLightbox('images/grey_mall.jpg')">
                     <div class="landmark-img"><img src="images/grey_mall.jpg" alt="映潮商場"></div>
-                    <div class="landmark-info"><h3>映潮商場</h3><p>高端複合商場，精品與改裝店並立 。</p></div>
+                    <div class="landmark-info"><h3>映潮商場</h3><p>高端複合式商場。昂貴精品與地下改裝店並列，呈現極致的衝突感。</p></div>
                 </div>
                 <div class="landmark-card" onclick="openLightbox('images/grey_club.jpg')">
                     <div class="landmark-img"><img src="images/grey_club.jpg" alt="浮光會館"></div>
-                    <div class="landmark-info"><h3>浮光會館</h3><p>會員制高級健身與溫水泳池會所 。</p></div>
+                    <div class="landmark-info"><h3>浮光會館</h3><p>高級會員制設施。內部設有健身房、溫水泳池與按摩浴池。</p></div>
                 </div>
                 <div class="landmark-card" onclick="openLightbox('images/grey_pier.jpg')">
                     <div class="landmark-img"><img src="images/grey_pier.jpg" alt="海藻碼頭"></div>
-                    <div class="landmark-info"><h3>海藻碼頭</h3><p>餐酒館與貨櫃景觀交織的獨特區域 。</p></div>
+                    <div class="landmark-info"><h3>海藻碼頭</h3><p>沿岸開滿餐酒館與景觀餐廳。面對著巨大的貨櫃堆，景觀衝突但散發獨特魅力。</p></div>
                 </div>
                 <div class="landmark-card" onclick="openLightbox('images/grey_house.jpg')">
                     <div class="landmark-img"><img src="images/grey_house.jpg" alt="灰岸住宅區"></div>
-                    <div class="landmark-info"><h3>灰岸住宅區</h3><p>高牆封閉式的高安保社區 。</p></div>
+                    <div class="landmark-info"><h3>灰岸住宅區</h3><p>高牆封閉式的高安保社區，專供灰港的富豪與投資客居住。</p></div>
                 </div>
+            </div>
+
+            <h2 class="section-title">地下文化場所</h2>
+            <div class="landmark-grid">
                 <div class="landmark-card" onclick="openLightbox('images/grey_black.jpg')">
                     <div class="landmark-img"><img src="images/grey_black.jpg" alt="暗碼市集"></div>
-                    <div class="landmark-info"><h3>暗碼市集</h3><p>灰港核心的地下黑市交易中心 。</p></div>
+                    <div class="landmark-info"><h3>暗碼市集</h3><p>灰港核心的地下黑市交易中心，無數見不得光的物品在此流通。</p></div>
                 </div>
                 <div class="landmark-card" onclick="openLightbox('images/grey_split.jpg')">
                     <div class="landmark-img"><img src="images/grey_split.jpg" alt="裂牆倉"></div>
-                    <div class="landmark-info"><h3>裂牆倉</h3><p>廢棄倉庫改建的地下 Live House 。</p></div>
+                    <div class="landmark-info"><h3>裂牆倉</h3><p>廢棄貨倉改建成的地下 Live House。塗鴉與粗獷的霓虹燈在此交錯。</p></div>
                 </div>
                 <div class="landmark-card" onclick="openLightbox('images/grey_alley.jpg')">
                     <div class="landmark-img"><img src="images/grey_alley.jpg" alt="聲隙巷"></div>
-                    <div class="landmark-info"><h3>聲隙巷</h3><p>聲紋錄音與高科技刺青店聚集地 。</p></div>
+                    <div class="landmark-info"><h3>聲隙巷</h3><p>聲紋科技集中地。兩側全是聲紋錄音間、音響工坊與高科技聲紋刺青店。</p></div>
                 </div>
                 <div class="landmark-card" onclick="openLightbox('images/grey_asmr.jpg')">
                     <div class="landmark-img"><img src="images/grey_asmr.jpg" alt="頻鳴窟"></div>
-                    <div class="landmark-info"><h3>頻鳴窟</h3><p>沉浸式聲音酒吧，主打 ASMR 與調教表演 。</p></div>
+                    <div class="landmark-info"><h3>頻鳴窟</h3><p>隱蔽的聲音快感酒吧。主打 ASMR、呻吟混音與現場聲音調教的耳機沉浸式體驗。</p></div>
                 </div>
                 <div class="landmark-card" onclick="openLightbox('images/grey_dance.jpg')">
                     <div class="landmark-img"><img src="images/grey_dance.jpg" alt="潮噬夜店"></div>
-                    <div class="landmark-info"><h3>潮噬夜店</h3><p>聲紋投影與藥物派對交織的巨型舞廳 。</p></div>
+                    <div class="landmark-info"><h3>潮噬夜店</h3><p>非法營業的超大舞廳。聲紋投影、迷幻燈光與藥物派對在此徹夜狂歡。</p></div>
                 </div>
                 <div class="landmark-card" onclick="openLightbox('images/grey_heavy.jpg')">
                     <div class="landmark-img"><img src="images/grey_heavy.jpg" alt="聲裂俱樂部"></div>
-                    <div class="landmark-info"><h3>聲裂俱樂部</h3><p>重金屬震動舞池與猛男表演場地 。</p></div>
+                    <div class="landmark-info"><h3>聲裂俱樂部</h3><p>重口味地下夜店。主打重金屬音樂與震動舞池，中央設有鋼管舞台與猛男表演。</p></div>
                 </div>
             </div>
         </section>
@@ -320,6 +353,12 @@
         toggle.addEventListener('click', () => { 
             toggle.classList.toggle('active'); 
             sideMenu.classList.toggle('active'); 
+        });
+        window.addEventListener('click', (e) => { 
+            if (sideMenu.classList.contains('active') && e.target !== sideMenu && e.target !== toggle && !toggle.contains(e.target)) { 
+                toggle.classList.remove('active'); 
+                sideMenu.classList.remove('active'); 
+            } 
         });
 
         // 城市切換功能
