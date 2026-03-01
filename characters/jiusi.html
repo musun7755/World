@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Personnel: Jiusi // 汣司</title>
+    <title>Personnel:汣司</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -52,6 +52,7 @@
         .side-menu a { color: #ccc; text-decoration: none; font-size: 1.1rem; font-weight: 500; margin: 10px 0; letter-spacing: 2px; transition: 0.3s; display: block; }
         .side-menu a:hover { color: var(--neon-cyan); padding-left: 10px; text-shadow: 0 0 10px var(--neon-cyan); }
 
+        /* 返回按鈕：預設固定定位（電腦版） */
         .back-btn {
             position: fixed; top: 20px; left: 20px; padding: 10px 20px; background: transparent;
             color: var(--char-color); border: 1px solid var(--char-color); border-radius: 4px;
@@ -61,7 +62,10 @@
 
         /* --- 主體佈局控制 --- */
         .profile-container { display: flex; width: 90%; max-width: 1200px; margin-top: 80px; margin-bottom: 30px; gap: 40px; z-index: 10; }
+        
+        /* 電腦版照片區塊：固定效果 */
         .visual-side { flex: 1; display: flex; flex-direction: column; align-items: center; position: sticky; top: 80px; height: fit-content; }
+        
         .portrait-box { width: 100%; max-width: 450px; aspect-ratio: 3 / 4; border: 1px solid var(--char-color); border-radius: 10px; background: var(--glass-bg); backdrop-filter: blur(10px); overflow: hidden; position: relative; box-shadow: var(--border-glow); }
         .portrait-box img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(30%) contrast(1.1); }
 
@@ -94,35 +98,14 @@
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
         /* ========== 「與他相遇」按鈕樣式 ========== */
-        .comm-section {
-            margin-top: 20px;
-            display: flex;
-            justify-content: center;
-        }
+        .comm-section { margin-top: 20px; display: flex; justify-content: center; }
         .comm-btn {
-            display: inline-block;
-            padding: 14px 30px;
-            color: var(--char-color);
-            border: 1px solid var(--char-color);
-            text-decoration: none;
-            font-weight: 900;
-            letter-spacing: 4px;
-            border-radius: 4px;
-            transition: all 0.4s;
-            background: rgba(153, 153, 153, 0.05);
-            box-shadow: 0 0 10px rgba(153, 153, 153, 0.1);
-            text-align: center;
-            width: 100%;
-            font-size: 1.1rem;
-            text-transform: uppercase;
+            display: inline-block; padding: 14px 30px; color: var(--char-color); border: 1px solid var(--char-color);
+            text-decoration: none; font-weight: 900; letter-spacing: 4px; border-radius: 4px;
+            transition: all 0.4s; background: rgba(153, 153, 153, 0.05); box-shadow: 0 0 10px rgba(153, 153, 153, 0.1);
+            text-align: center; width: 100%; font-size: 1.1rem; text-transform: uppercase;
         }
-        .comm-btn:hover {
-            background: var(--char-color);
-            color: #000;
-            box-shadow: 0 0 30px var(--char-color);
-            transform: translateY(-3px);
-            letter-spacing: 6px;
-        }
+        .comm-btn:hover { background: var(--char-color); color: #000; box-shadow: 0 0 30px var(--char-color); transform: translateY(-3px); letter-spacing: 6px; }
 
         /* 影像存檔 */
         .gallery-container { width: 90%; max-width: 1200px; margin: 0 auto 60px auto; z-index: 10; }
@@ -135,16 +118,23 @@
             .gallery-item:hover img { filter: grayscale(0%); transform: scale(1.05); }
         }
 
+        /* 燈箱 */
         .lightbox { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5, 5, 5, 0.85); backdrop-filter: blur(8px); z-index: 2000; display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: 0.3s ease; cursor: zoom-out; }
         .lightbox.active { opacity: 1; visibility: visible; }
         .lightbox img { max-width: 85vw; max-height: 85vh; border: 2px solid var(--char-color); border-radius: 8px; box-shadow: 0 0 30px rgba(153, 153, 153, 0.5); transform: scale(0.9); transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); object-fit: contain; }
         .lightbox.active img { transform: scale(1); }
 
+        /* ========== 手機版排版優化 (核心修正) ========== */
         @media (max-width: 900px) {
-            .profile-container { flex-direction: column; margin-top: 70px; gap: 20px; }
-            .visual-side { position: relative; top: 0; }
+            .profile-container { flex-direction: column; margin-top: 100px; gap: 20px; }
+            
+            /* 返回按鈕改為絕對定位，隨頁面滑走 */
+            .back-btn { position: absolute; top: 20px; left: 20px; }
+            
+            /* 取消照片固定效果，讓照片隨頁面滑走 */
+            .visual-side { position: relative; top: 0; width: 100%; }
+            
             .data-header h1 { font-size: 2.2rem; }
-            .back-btn { top: 80px; }
             .gallery-item img { filter: grayscale(10%); }
         }
     </style>
@@ -165,6 +155,7 @@
         <a href="jiran.html">霽冉｜個人檔案</a>
         <a href="linxie.html">林蠍｜個人檔案</a>
     </nav>
+    
     <a href="../index.html" class="back-btn">&lt; SYSTEM.BACK</a>
 
     <div class="profile-container">
@@ -196,7 +187,7 @@
                 <div class="typing-container"><span id="typewriter"></span><span class="cursor"></span></div>
                 
                 <div class="comm-section">
-                    <a href="https://你的LLM網址" target="_blank" class="comm-btn">與他相遇</a>
+                    <a href="https://abr.ge/82cbr3" target="_blank" class="comm-btn">與他相遇</a>
                 </div>
             </div>
         </div>
@@ -218,7 +209,6 @@
         const toggle = document.getElementById('menuToggle');
         const sideMenu = document.getElementById('sideMenu');
         toggle.addEventListener('click', () => { toggle.classList.toggle('active'); sideMenu.classList.toggle('active'); });
-        window.addEventListener('click', (e) => { if (sideMenu.classList.contains('active') && e.target !== sideMenu && e.target !== toggle && !toggle.contains(e.target)) { toggle.classList.remove('active'); sideMenu.classList.remove('active'); } });
 
         const lightbox = document.getElementById('lightbox');
         const lightboxImg = document.getElementById('lightbox-img');
@@ -231,7 +221,7 @@
         resize();
         window.addEventListener('resize', resize);
         const chars = "0123456789ABCDEF";
-        const cities = ["9TH", "VOICEPRINT", "HUIGANG", "TATTOO"];
+        const cities = ["9TH", "汣司", "嘴嘴", "小泡芙", "可樂"];
         const drops = Array(Math.floor(canvas.width / 16)).fill(1);
         function draw() {
             ctx.fillStyle = "rgba(5, 5, 5, 0.08)"; ctx.fillRect(0, 0, canvas.width, canvas.height);
